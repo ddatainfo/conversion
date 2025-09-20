@@ -1,0 +1,17 @@
+ 
+        
+DATE=17-Sep-25                       TIME=10:10:44 AM
+PART NAME  : BONNET VMC ANGLE
+REV NUMBER : 
+SER NUMBER : 
+STATS COUNT : 1
+ 
+DIM ANGL5= 3D ANGLE FROM LINE LIN4 TO LINE LIN3
+AX     NOMINAL       +TOL       -TOL        MEAS        DEV     OUTTOL
+A    103°00'00"   0°30'00"   0°30'00"  103°25'39"   0°25'39"   0°00'00" --------#
+DIM ANGL10= 2D ANGLE TO LINE LIN5 FROM LINE LIN3
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+A    51°50'00"   0°30'00"   0°30'00"  51°38'28"  -0°11'32"   0°00'00" --#------
+DIM ANGL13= 2D ANGLE TO LINE LIN4 FROM LINE LIN5
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+A    51°50'00"   0°30'00"   0°30'00"  51°47'11"  -0°02'49"   0°00'00" ----#----

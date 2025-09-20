@@ -1,0 +1,42 @@
+ 
+        
+DATE=17-Sep-25                       TIME=10:12:04 AM
+PART NAME  : BEARING BARCKET RH (Slot side)
+REV NUMBER : 
+SER NUMBER : A400 317  0442
+STATS COUNT : 1
+ 
+SERIAL NUMBER :  : AKF 168
+DIM LOC1 #20= LOCATION OF CIRCLE CIR6  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+D       95.100      0.150      0.000     95.170      0.070      0.000 ----#----
+DIM LOC2= LOCATION OF CIRCLE CIR8  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+X       -7.000      0.100      0.100     -7.096     -0.096      0.000 #--------
+DIM DIST6 #89= 2D DISTANCE FROM CIRCLE CIR5 TO CIRCLE CIR8 PAR TO   YAXIS,NO_RADIUS  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+M      119.500      0.100      0.100    119.552      0.052      0.000 ------#--
+DIM DIST6 #131= 2D DISTANCE FROM CIRCLE CIR4 TO CIRCLE CIR5     (CENTER TO CENTER),NO_RADIUS  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+M      207.000      0.100      0.100    206.992     -0.008      0.000 ----#----
+DIM DIST6 #96= 2D DISTANCE FROM CIRCLE CIR7 TO CIRCLE CIR2 PAR TO   XAXIS,NO_RADIUS  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+M       41.000      0.100      0.100     40.963     -0.037      0.000 --#------
+DIM DIST6 #97= 2D DISTANCE FROM CIRCLE CIR8 TO CIRCLE CIR5 PAR TO   XAXIS,NO_RADIUS  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+M       25.000      0.100      0.100     25.063      0.063      0.000 -------#-
+DIM LOC3= LOCATION OF SLOT SLTR1  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+X        0.000      0.100      0.100     -0.047     -0.047      0.000 --#------
+L       18.000      0.100      0.100     18.118      0.118      0.018 -------->
+DIM LOC1= LOCATION OF PLANE PLN3  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+Z       -2.000      0.100      0.100     -2.064     -0.064      0.000 -#-------
+DIM LOC4#102= LOCATION OF CIRCLE CIR5  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+X       18.000      0.100      0.100     17.967     -0.033      0.000 ---#-----
+Y     -308.000      0.100      0.100   -308.010     -0.010      0.000 ----#----
+D       21.000      0.200      0.200     21.113      0.113      0.000 -------#-
+DIM DIST6 #179= 2D DISTANCE FROM CIRCLE CIR5 TO CIRCLE CIR7 PAR TO   YAXIS,NO_RADIUS  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+M      196.000      0.100      0.100    196.017      0.017      0.000 -----#---

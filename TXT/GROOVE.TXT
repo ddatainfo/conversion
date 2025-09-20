@@ -1,0 +1,59 @@
+ 
+        
+DATE=17-Sep-25                       TIME=10:09:47 AM
+PART NAME  : CALIPER,FIN(Groove opr)   PARTNO: 326301114E   
+REV NUMBER : E
+SER NUMBER : 
+STATS COUNT : 1
+ 
+*********************** JS AUTO CAST FOUNDRY INDIA LTD ************************
+SERIAL NUMBER : 1
+'Inspector name' : S.SATHISHKUMAR
+DIM #FLATNESS= FLATNESS OF PLANE PLN5  SD=0.005  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+M        0.000      0.120      0.000      0.016      0.016      0.000 #---
+DIM #47A.1 LOC1= LOCATION OF CIRCLE CIR5  SD=0.000  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+X        0.000      0.050      0.050      0.017      0.017      0.000 --#-
+Y        0.000      0.050      0.050      0.008      0.008      0.000 --#-
+D       64.960      0.037      0.037     64.974      0.014      0.000 --#-
+DIM #47A LOC2= LOCATION OF CIRCLE CIR6  SD=0.000  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+X        0.000      0.050      0.050      0.011      0.011      0.000 --#-
+Y        0.000      0.050      0.050      0.003      0.003      0.000 --#-
+D       65.700      0.037      0.037     65.729      0.029      0.000 ---#
+DIM A DIST1= 2D DISTANCE FROM PLANE PLN3 TO CIRCLE CIR6 PAR TO   ZAXIS,NO_RADIUS  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+M        4.250      0.250      0.100      4.271      0.021      0.000 -#--
+DIM #48A ANGL1= 2D ANGLE FROM LINE LIN1 TO   ZAXIS
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+A     5°00'00"   0°30'00"   0°30'00"   5°00'10"   0°00'10"   0°00'00" --#-
+DIM #46A ANGL2= 2D ANGLE FROM LINE LIN2 TO   XAXIS
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+A     7°00'00"   0°30'00"   0°30'00"   6°46'17"  -0°13'43"   0°00'00" -#--
+DIM #48B ANGL2= 2D ANGLE TO LINE LIN3 FROM   ZAXIS
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+A    -5°00'00"   0°30'00"   0°30'00"  -4°50'48"   0°09'12"   0°00'00" --#-
+DIM #47A.2 LOC4= LOCATION OF CIRCLE CIR7  SD=0.000  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+X       80.000      0.050      0.050     79.992     -0.008      0.000 -#--
+Y        0.000      0.050      0.050      0.001      0.001      0.000 --#-
+D       64.960      0.037      0.037     64.980      0.020      0.000 ---#
+DIM #47B LOC5= LOCATION OF CIRCLE CIR8  SD=0.000  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+X       80.000      0.050      0.050     79.992     -0.008      0.000 -#--
+Y        0.000      0.050      0.050      0.003      0.003      0.000 --#-
+D       65.700      0.037      0.037     65.724      0.024      0.000 ---#
+DIM #35A.1 DIST2= 2D DISTANCE FROM PLANE PLN4 TO CIRCLE CIR8 PAR TO   ZAXIS,NO_RADIUS  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+M        4.250      0.100      0.100      4.265      0.015      0.000 --#-
+PART NUMBER=CALIPER,FIN(Groove opr)   PARTNO: 326301114E       DATE=17-Sep-25     TIME=10:09:48 AM           PAGE#=2
+DIM #35A.2 DIST5= 2D DISTANCE FROM PLANE PLN3 TO CIRCLE CIR6 PAR TO   ZAXIS,NO_RADIUS  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+M        4.250      0.100      0.100      4.271      0.021      0.000 --#-
+DIM #36C.1= 2D DISTANCE FROM PLANE PLN2 TO PLANE PLN3 PAR TO   ZAXIS,NO_RADIUS  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+M       13.000      0.250      0.250     13.046      0.046      0.000 --#-
+DIM #36C2.= 2D DISTANCE FROM PLANE PLN2 TO PLANE PLN4 PAR TO   ZAXIS,NO_RADIUS  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+M       13.000      0.250      0.250     13.049      0.049      0.000 --#-

@@ -1,0 +1,199 @@
+ 
+        
+DATE=17-Sep-25                       TIME=10:09:14 AM
+PART NAME  : CALIPER FIN    PART NUMBER:326301114E
+REV NUMBER : E
+SER NUMBER : ATI S 19A
+STATS COUNT : 1
+ 
+SERIAL NUMBER : AKH 182
+#17 FCFFLAT1 = FLATNESS OF PLN2   UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+M        0.000      0.120      0.000      0.016      0.016      0.000 -#-------
+DIM #10 DIST1= 2D DISTANCE FROM CIRCLE CIR7 TO CIRCLE CIR6 PAR TO   XAXIS,NO_RADIUS  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+M      273.000      0.070      0.070    273.027      0.027      0.000 ------#--
+DIM DIST2= 2D DISTANCE FROM CIRCLE CIR8 TO CIRCLE CIR9 PAR TO   XAXIS,NO_RADIUS  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+M      273.000      0.070      0.070    272.976     -0.024      0.000 --#------
+DIM #3A LOC1= LOCATION OF PLANE PLN18  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+Y      -34.000      0.400      0.400    -34.025     -0.025      0.000 ----#----
+DIM #3B LOC2= LOCATION OF PLANE PLN19  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+Y      -34.000      0.400      0.400    -34.077     -0.077      0.000 ---#-----
+DIM #8 DIST3= 2D DISTANCE FROM CIRCLE CIR4 TO CYLINDER CYL3 PAR TO   XAXIS,NO_RADIUS  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+M       72.500      0.070      0.070     72.499     -0.001      0.000 ----#----
+FCFLOC1 = POSITION OF CIR7      FIT TO DATUMS=ON  DEV PERPEN CENTERLINE=ON  UNITS=MM
+AX    NOMINAL       +TOL       -TOL      BONUS       MEAS         DEV     OUTTOL
+X       0.000                                      -0.042      -0.042           
+Y       0.000                                       0.000       0.000           
+DF      4.000      0.100      0.100                 4.002       0.002      0.000 ----#----
+D1     12.000      0.250      0.250                12.065 CIRCLE CIR8 AT RFS           
+TP        RFS      0.400                 0.000      0.083       0.083      0.000 -#-------
+DIM #4 DIST4= 2D DISTANCE FROM CIRCLE CIR4 TO CYLINDER CYL3 PAR TO   YAXIS,NO_RADIUS  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+M       21.000      0.070      0.070     20.994     -0.006      0.000 ----#----
+DIM #5 DIST5= 2D DISTANCE FROM CYLINDER CYL3 TO CIRCLE CIR6 PAR TO   YAXIS,NO_RADIUS  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+M       14.500      0.070      0.070     14.507      0.007      0.000 ----#----
+DIM DIST6= 2D DISTANCE FROM CYLINDER CYL4 TO CIRCLE CIR7 PAR TO   YAXIS,NO_RADIUS  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+M       14.500      0.070      0.070     14.494     -0.006      0.000 ----#----
+DIM #6 DIST7= 2D DISTANCE FROM CYLINDER CYL3 TO CIRCLE CIR6 PAR TO   XAXIS,NO_RADIUS  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+M       24.000      0.400      0.400     24.008      0.008      0.000 ----#----
+DIM #32 DIST8= 2D DISTANCE FROM CIRCLE CIR7 TO CYLINDER CYL4 PAR TO   XAXIS,NO_RADIUS  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+M       24.000      0.400      0.400     23.965     -0.035      0.000 ----#----
+PART NUMBER=CALIPER FIN    PART NUMBER:326301114E    DATE=17-Sep-25     TIME=10:09:15 AM           PAGE#=2
+DIM #7 DIST9= 2D DISTANCE FROM CIRCLE CIR4 TO PLANE PLN15 PAR TO   XAXIS,NO_RADIUS  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+M       57.750      0.400      0.400     57.784      0.034      0.000 ----#----
+DIM DIST10= 2D DISTANCE FROM CIRCLE CIR4 TO PLANE PLN14 PAR TO   XAXIS,NO_RADIUS  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+M       57.750      0.400      0.400     57.746     -0.004      0.000 ----#----
+DIM #9 DIST11= 2D DISTANCE FROM CIRCLE CIR5 TO CIRCLE CIR4 PAR TO   XAXIS,NO_RADIUS  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+M       40.000      0.400      0.400     40.022      0.022      0.000 ----#----
+DIM #9A DIST12= 2D DISTANCE FROM PLANE PLN10 TO PLANE PLN15 PAR TO   XAXIS,NO_RADIUS  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+M      195.500      0.150      0.150    195.533      0.033      0.000 -----#---
+DIM DIST13= 2D DISTANCE FROM PLANE PLN14 TO PLANE PLN11 PAR TO   XAXIS,NO_RADIUS  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+M      195.500      0.250      0.250    195.490     -0.010      0.000 ----#----
+DIM #24A LOC3= LOCATION OF CIRCLE CIR3  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+X        0.000      0.050      0.050      0.000      0.000      0.000 ----#----
+Y        0.000      0.050      0.050      0.000      0.000      0.000 ----#----
+D       60.000      0.046      0.000     60.014      0.014      0.000 --#------
+DIM #24B#22 LOC4= LOCATION OF CIRCLE CIR4  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+X       80.000      0.050      0.050     79.993     -0.007      0.000 ---#-----
+Y        0.000      0.050      0.050      0.000      0.000      0.000 ----#----
+D       60.000      0.046      0.000     60.015      0.015      0.000 --#------
+DIM #28LOC5= LOCATION OF PLANE PLN7  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+Z      -40.000      0.400      0.400    -40.116     -0.116      0.000 ---#-----
+DIM LOC6= LOCATION OF PLANE PLN5  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+Z      -40.000      0.400      0.400    -40.109     -0.109      0.000 ---#-----
+DIM #17B LOC7= LOCATION OF PLANE PLN8  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+Z      -70.500      0.400      0.400    -70.412      0.088      0.000 -----#---
+DIM #17B LOC8= LOCATION OF PLANE PLN3  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+Z      -70.500      0.400      0.400    -70.411      0.089      0.000 -----#---
+DIM #22A LOC9= LOCATION OF POINT PNT4  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+Z      -39.000      0.400      0.400    -38.954      0.046      0.000 -----#---
+DIM #22A.1LOC10= LOCATION OF POINT PNT5  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+Z      -39.000      0.400      0.400    -38.996      0.004      0.000 ----#----
+DIM #22 DIST14= 2D DISTANCE FROM CIRCLE CIR3 TO CIRCLE CIR4 PAR TO   XAXIS,NO_RADIUS  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+M       80.000      0.120      0.120     79.993     -0.007      0.000 ----#----
+DIM #34 DIST15= 2D DISTANCE FROM CYLINDER CYL4 TO CYLINDER CYL3 PAR TO   XAXIS,NO_RADIUS  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+M      225.000      0.070      0.070    225.054      0.054      0.000 -------#-
+DIM #35 DIST16= 2D DISTANCE FROM CYLINDER CYL5 TO CYLINDER CYL2 PAR TO   XAXIS,NO_RADIUS  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+M      314.000      0.070      0.070    314.010      0.010      0.000 -----#---
+DIM #31 DIST17= 2D DISTANCE FROM CYLINDER CYL4 TO CYLINDER CYL5 PAR TO   XAXIS,NO_RADIUS  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+M       44.500      0.100      0.100     44.450     -0.050      0.000 --#------
+DIM DIST18= 2D DISTANCE FROM CYLINDER CYL3 TO CYLINDER CYL2 PAR TO   XAXIS,NO_RADIUS  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+M       44.500      0.100      0.100     44.506      0.006      0.000 ----#----
+PART NUMBER=CALIPER FIN    PART NUMBER:326301114E    DATE=17-Sep-25     TIME=10:09:15 AM           PAGE#=3
+DIM #33 DIST19= 2D DISTANCE FROM CYLINDER CYL4 TO CYLINDER CYL5 PAR TO   YAXIS,NO_RADIUS  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+M       33.000      0.070      0.070     32.981     -0.019      0.000 ---#-----
+DIM DIST20= 2D DISTANCE FROM CYLINDER CYL3 TO CYLINDER CYL2 PAR TO   YAXIS,NO_RADIUS  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+M       33.000      0.070      0.070     33.007      0.007      0.000 ----#----
+DIM #30 LOC11= LOCATION OF CIRCLE CIR5  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+D        6.350      0.100      0.100      6.426      0.076      0.000 -------#-
+DIM #35A.1 DIST21= 3D DISTANCE FROM PLANE PLN8 TO PLANE PLN9,SHORTEST=OFF,NO_RADIUS  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+M        4.000      0.100      0.100      3.999     -0.001      0.000 ----#----
+DIM #35A.2DIST23= 3D DISTANCE FROM PLANE PLN3 TO PLANE PLN4,SHORTEST=OFF,NO_RADIUS  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+M        4.000      0.100      0.100      3.998     -0.002      0.000 ----#----
+DIM #25A LOC12= LOCATION OF PLANE PLN12  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+Z      -18.000      0.400      0.400    -17.991      0.009      0.000 ----#----
+DIM #25B LOC13= LOCATION OF PLANE PLN13  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+Z      -18.000      0.400      0.400    -18.026     -0.026      0.000 ----#----
+DIM #16PERP1= PERPENDICULARITY OF CYLINDER CYL1,RFS TO PLANE PLN2,RFS EXTENDLENGTH=0.000  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+M        0.000      0.250      0.000      0.003      0.003      0.000 #--------
+#16A FCFLOC2 = POSITION OF CIR6      FIT TO DATUMS=ON  DEV PERPEN CENTERLINE=ON  UNITS=MM
+AX    NOMINAL       +TOL       -TOL      BONUS       MEAS         DEV     OUTTOL
+X     273.000                                     272.986      -0.014           
+Y       0.000                                       0.000       0.000           
+DF      4.000      0.100      0.100                 3.998      -0.002      0.000 ----#----
+D1     12.000      0.250      0.250                12.065 CIRCLE CIR8 AT RFS           
+TP        RFS      0.400                 0.000      0.028       0.028      0.000 #--------
+#16B FCFLOC3 = POSITION OF CIR7      FIT TO DATUMS=ON  DEV PERPEN CENTERLINE=ON  UNITS=MM
+AX    NOMINAL       +TOL       -TOL      BONUS       MEAS         DEV     OUTTOL
+X       0.000                                      -0.042      -0.042           
+Y       0.000                                       0.000       0.000           
+DF      4.000      0.100      0.100                 4.002       0.002      0.000 ----#----
+D1     12.000      0.250      0.250                12.065 CIRCLE CIR8 AT RFS           
+TP        RFS      0.400                 0.000      0.083       0.083      0.000 -#-------
+DIM #27A LOC14= POSITION OF CYLINDER CYL2  USE AXIS=AVERAGE  REF LENGTH=0.000  UNITS=MM
+AX    NOMINAL       +TOL       -TOL      BONUS       MEAS        DEV     OUTTOL
+X     197.000                                     196.998     -0.002           
+Y     -12.000                                     -12.014     -0.014           
+DF     12.500      0.200      0.200      0.226     12.526      0.026      0.000 -----#---
+TP        MMC      0.200                 0.226      0.028      0.028      0.000 #--------
+DIM #27B LOC15= POSITION OF CYLINDER CYL3  USE AXIS=AVERAGE  REF LENGTH=0.000  UNITS=MM
+AX    NOMINAL       +TOL       -TOL      BONUS       MEAS        DEV     OUTTOL
+X     152.500                                     152.492     -0.008           
+Y      21.000                                      20.994     -0.006           
+DF     12.500      0.200      0.200      0.223     12.523      0.023      0.000 -----#---
+TP        MMC      0.200                 0.223      0.020      0.020      0.000 #--------
+DIM #27C LOC16= POSITION OF CYLINDER CYL4  USE AXIS=AVERAGE  REF LENGTH=0.000  UNITS=MM
+AX    NOMINAL       +TOL       -TOL      BONUS       MEAS        DEV     OUTTOL
+X     -72.500                                     -72.562     -0.062           
+Y      21.000                                      21.001      0.001           
+DF     12.500      0.200      0.200      0.250     12.550      0.050      0.000 -----#---
+TP        MMC      0.200                 0.250      0.124      0.124      0.000 --#------
+DIM #27D LOC17= POSITION OF CYLINDER CYL5  USE AXIS=AVERAGE  REF LENGTH=0.000  UNITS=MM
+AX    NOMINAL       +TOL       -TOL      BONUS       MEAS        DEV     OUTTOL
+X    -117.000                                    -117.012     -0.012           
+PART NUMBER=CALIPER FIN    PART NUMBER:326301114E    DATE=17-Sep-25     TIME=10:09:15 AM           PAGE#=4
+Y     -12.000                                     -11.980      0.020           
+DF     12.500      0.200      0.200      0.220     12.520      0.020      0.000 ----#----
+TP        MMC      0.200                 0.220      0.046      0.046      0.000 #--------
+DIM #14A.1 PARL1= PARALLELISM OF PLANE PLN2,RFS TO PLANE PLN9,RFS  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+M        0.000      0.100      0.000      0.027      0.027      0.000 --#------
+DIM 14A.2 PARL1= PARALLELISM OF PLANE PLN4,RFS TO PLANE PLN1,RFS  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+M        0.000      0.100      0.000      0.008      0.008      0.000 #--------
+DIM #15A LOC1= POSITION OF CIRCLE CIR8  UNITS=MM
+AX    NOMINAL       +TOL       -TOL      BONUS       MEAS        DEV     OUTTOL
+X     -96.500                                     -96.485      0.015           
+Y       6.500                                       6.507      0.007           
+DF     12.000      0.250      0.250      0.315     12.065      0.065      0.000 -----#---
+TP        MMC      0.250                 0.315      0.032      0.032      0.000 #--------
+DIM #15B LOC2= POSITION OF CIRCLE CIR9  UNITS=MM
+AX    NOMINAL       +TOL       -TOL      BONUS       MEAS        DEV     OUTTOL
+X     176.500                                     176.491     -0.009           
+Y       6.500                                       6.504      0.004           
+DF     12.000      0.250      0.250      0.366     12.116      0.116      0.000 ------#--
+TP        MMC      0.250                 0.366      0.020      0.020      0.000 #--------
+DIM #17A LOC1= LOCATION OF PLANE PLN9  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+Z      -74.500      0.400      0.400    -74.412      0.088      0.000 -----#---
+DIM #14A LOC1= LOCATION OF PLANE PLN17  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+Z       -1.400      0.100      0.100     -1.358      0.042      0.000 ------#--
+DIM #14BLOC1= LOCATION OF PLANE PLN16  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+Z       -1.400      0.100      0.100     -1.353      0.047      0.000 ------#--

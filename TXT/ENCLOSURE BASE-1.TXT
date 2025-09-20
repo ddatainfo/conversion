@@ -1,0 +1,278 @@
+ 
+        
+DATE=17-Sep-25                       TIME=10:12:40 AM
+PART NAME  : ENCLOSURE BASE
+REV NUMBER : U
+SER NUMBER : 10000017910
+STATS COUNT : 1
+ 
+DIM #1DIST1= 2D DISTANCE FROM CIRCLE CIR17 TO CIRCLE CIR18     (CENTER TO CENTER),NO_RADIUS  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+M      140.000      0.130      0.130    140.052      0.052      0.000 ------#--
+DIM #2DIST1= 2D DISTANCE FROM CIRCLE CIR4 TO CIRCLE CIR17 PAR TO   XAXIS,NO_RADIUS  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+M      129.980      0.130      0.130    130.003      0.023      0.000 -----#---
+DIM #3DIST4= 2D DISTANCE FROM PLANE PLN2 TO CIRCLE CIR18 PAR TO   ZAXIS,NO_RADIUS  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+M       27.400      0.130      0.130     27.357     -0.043      0.000 --#------
+#5FCFFLAT1 = FLATNESS OF PLN2   UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+M        0.000      0.250      0.000      0.081      0.081      0.000 --#------
+#7FCFLOC1 = POSITION OF CIR17          FIT TO DATUMS=ON  DEV PERPEN CENTERLINE=ON  UNITS=MM
+AX    NOMINAL       +TOL       -TOL      BONUS       MEAS         DEV     OUTTOL
+X    -129.980                                    -129.980       0.000           
+Z     -27.400                                     -27.469      -0.069           
+D1                                                        PLANE PLN2 AT RFS           
+D2      3.332      0.010      0.010                 3.354 CIRCLE CIR4 AT RFS           
+TP        RFS      0.250                 0.000      0.138       0.138      0.000 ----#----
+#7.1FCFLOC1 = POSITION OF CIR18          FIT TO DATUMS=ON  DEV PERPEN CENTERLINE=ON  UNITS=MM
+AX    NOMINAL       +TOL       -TOL      BONUS       MEAS         DEV     OUTTOL
+X      10.020                                      10.020       0.000           
+Z     -27.400                                     -27.357       0.043           
+D1                                                        PLANE PLN2 AT RFS           
+D2      3.332      0.100      0.100                 3.354 CIRCLE CIR4 AT RFS           
+TP        RFS      0.250                 0.000      0.087       0.087      0.000 ---#-----
+DIM #9DIST8= 2D DISTANCE FROM CIRCLE CIR4 TO CIRCLE CIR13     (CENTER TO CENTER),NO_RADIUS  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+M      118.000      0.130      0.130    117.977     -0.023      0.000 ---#-----
+DIM #11DIST8= 2D DISTANCE FROM CIRCLE CIR19 TO CIRCLE CIR4 PAR TO   XAXIS,NO_RADIUS  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+M       64.960      0.130      0.130     64.913     -0.047      0.000 --#------
+DIM #12DIST11= 2D DISTANCE FROM CIRCLE CIR4 TO CIRCLE CIR10 PAR TO   XAXIS,NO_RADIUS  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+M       60.010      0.130      0.130     59.979     -0.031      0.000 ---#-----
+DIM #14DIST12= 2D DISTANCE FROM CIRCLE CIR4 TO CIRCLE CIR12 PAR TO   XAXIS,NO_RADIUS  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+M        2.000      0.130      0.130      1.936     -0.064      0.000 --#------
+#16.1FCFLOC1 = POSITION OF CIR19          FIT TO DATUMS=ON  DEV PERPEN CENTERLINE=ON  UNITS=MM
+AX    NOMINAL       +TOL       -TOL      BONUS       MEAS         DEV     OUTTOL
+X     -64.960                                     -64.935       0.025           
+Y     199.000                                     198.923      -0.077           
+D1                                                        PLANE PLN2 AT RFS           
+D2      3.332      0.100      0.100                 3.354 CIRCLE CIR4 AT RFS           
+TP        RFS      0.250                 0.000      0.163       0.163      0.000 -----#---
+PART NUMBER=ENCLOSURE BASE    DATE=17-Sep-25     TIME=10:12:41 AM           PAGE#=2
+#16.2FCFLOC1 = POSITION OF CIR10          FIT TO DATUMS=ON  DEV PERPEN CENTERLINE=ON  UNITS=MM
+AX    NOMINAL       +TOL       -TOL      BONUS       MEAS         DEV     OUTTOL
+X     -60.010                                     -59.979       0.031           
+Y     103.500                                     103.446      -0.054           
+D1                                                        PLANE PLN2 AT RFS           
+D2      3.332      0.100      0.100                 3.354 CIRCLE CIR4 AT RFS           
+TP        RFS      0.250                 0.000      0.125       0.125      0.000 ----#----
+#16.3FCFLOC1 = POSITION OF CIR8          FIT TO DATUMS=ON  DEV PERPEN CENTERLINE=ON  UNITS=MM
+AX    NOMINAL       +TOL       -TOL      BONUS       MEAS         DEV     OUTTOL
+X     -74.910                                     -74.903       0.007           
+Y      65.000                                      64.994      -0.006           
+D1                                                        PLANE PLN2 AT RFS           
+D2      3.332      0.100      0.100                 3.354 CIRCLE CIR4 AT RFS           
+TP        RFS      0.250                 0.000      0.018       0.018      0.000 #--------
+#16.4FCFLOC1 = POSITION OF CIR9          FIT TO DATUMS=ON  DEV PERPEN CENTERLINE=ON  UNITS=MM
+AX    NOMINAL       +TOL       -TOL      BONUS       MEAS         DEV     OUTTOL
+X     -45.110                                     -45.089       0.021           
+Y      65.000                                      64.970      -0.030           
+D1                                                        PLANE PLN2 AT RFS           
+D2      3.332      0.100      0.100                 3.354 CIRCLE CIR4 AT RFS           
+TP        RFS      0.250                 0.000      0.072       0.072      0.000 --#------
+#20.1#21 LOC1 = POSITION OF CIR11          FIT TO DATUMS=ON  DEV PERPEN CENTERLINE=ON  UNITS=MM
+AX    NOMINAL       +TOL       -TOL      BONUS       MEAS         DEV     OUTTOL
+X     -13.310                                     -13.305       0.005           
+Y     158.300                                     158.235      -0.065           
+D1                                                        PLANE PLN2 AT RFS           
+D2      3.332      0.100      0.100                 3.354 CIRCLE CIR4 AT RFS           
+TP        RFS      0.250                 0.000      0.130       0.130      0.000 ----#----
+#20.2FCFLOC1 = POSITION OF CIR7          FIT TO DATUMS=ON  DEV PERPEN CENTERLINE=ON  UNITS=MM
+AX    NOMINAL       +TOL       -TOL      BONUS       MEAS         DEV     OUTTOL
+X     -22.810                                     -22.777       0.033           
+Y      11.800                                      11.783      -0.017           
+D1                                                        PLANE PLN2 AT RFS           
+D2      3.332      0.100      0.100                 3.354 CIRCLE CIR4 AT RFS           
+TP        RFS      0.250                 0.000      0.074       0.074      0.000 --#------
+DIM #23DIST13= 3D DISTANCE FROM CIRCLE CIR12 TO CIRCLE CIR4,SHORTEST=OFF,NO_RADIUS  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+M      215.000      0.130      0.130    214.940     -0.060      0.000 --#------
+DIM #25LOC1= LOCATION OF CIRCLE CIR7  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+Y       11.800      0.130      0.130     11.776     -0.024      0.000 ---#-----
+DIM #27LOC1= LOCATION OF CIRCLE CIR6  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+Y      -14.330      0.130      0.130    -14.352     -0.022      0.000 ---#-----
+DIM #34DIST26= 2D DISTANCE FROM CIRCLE CIR4 TO CIRCLE CIR11 PAR TO   XAXIS,NO_RADIUS  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+M       13.310      0.100      0.100     13.332      0.022      0.000 -----#---
+DIM #35DIST27= 2D DISTANCE FROM CIRCLE CIR4 TO CIRCLE CIR7 PAR TO   XAXIS,NO_RADIUS  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+M       22.810      0.130      0.130     22.781     -0.029      0.000 ---#-----
+DIM #36DIST27= 2D DISTANCE FROM CIRCLE CIR4 TO CIRCLE CIR6 PAR TO   XAXIS,NO_RADIUS  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+M       35.000      0.130      0.130     35.007      0.007      0.000 ----#----
+DIM #37DIST27= 2D DISTANCE FROM CIRCLE CIR4 TO CIRCLE CIR8 PAR TO   XAXIS,NO_RADIUS  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+M       74.910      0.100      0.100     74.902     -0.008      0.000 ----#----
+PART NUMBER=ENCLOSURE BASE    DATE=17-Sep-25     TIME=10:12:41 AM           PAGE#=3
+DIM #38DIST28= 2D DISTANCE FROM CIRCLE CIR4 TO CIRCLE CIR3 PAR TO   XAXIS,NO_RADIUS  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+M      120.000      0.100      0.100    119.964     -0.036      0.000 --#------
+DIM #39DIST29= 2D DISTANCE FROM CIRCLE CIR8 TO CIRCLE CIR9     (CENTER TO CENTER),NO_RADIUS  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+M       29.800      0.100      0.100     29.828      0.028      0.000 -----#---
+#40FCFLOC1 = POSITION OF CIR6          FIT TO DATUMS=ON  DEV PERPEN CENTERLINE=ON  UNITS=MM
+AX    NOMINAL       +TOL       -TOL      BONUS       MEAS         DEV     OUTTOL
+X     -35.000                                     -35.014      -0.014           
+Y     -14.330                                     -14.336      -0.006           
+D1                                                        PLANE PLN2 AT RFS           
+D2      3.332      0.100      0.100                 3.354 CIRCLE CIR4 AT RFS           
+TP        RFS      0.250                 0.000      0.030       0.030      0.000 -#-------
+#42,43.FCFFLAT1 = FLATNESS OF PLN8   UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+M        0.000      0.030      0.000      0.001      0.001      0.000 #--------
+DIM #45LOC1= LOCATION OF CIRCLE CIR8  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+Y       65.000      0.130      0.130     64.996     -0.004      0.000 ----#----
+DIM #46LOC1= LOCATION OF CIRCLE CIR10  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+Y      103.500      0.130      0.130    103.446     -0.054      0.000 --#------
+DIM #47LOC1= LOCATION OF CIRCLE CIR19  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+Y      199.000      0.130      0.130    198.930     -0.070      0.000 --#------
+#49,50.FCFFLAT1 = FLATNESS OF PLN9   UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+M        0.000      0.030      0.000      0.004      0.004      0.000 -#-------
+#52,53.FCFFLAT1 = FLATNESS OF PLN12   UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+M        0.000      0.030      0.000      0.002      0.002      0.000 #--------
+DIM #65.DIST1= 2D DISTANCE FROM PLANE PLN12 TO PLANE PLN18 PAR TO   ZAXIS,NO_RADIUS  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+M        4.600      0.100      0.100      4.592     -0.008      0.000 ----#----
+DIM #70.DIST3= 2D DISTANCE FROM PLANE PLN20 TO PLANE PLN8 PAR TO   ZAXIS,NO_RADIUS  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+M        5.500      0.100      0.100      5.505      0.005      0.000 ----#----
+DIM #69.DIST2= 2D DISTANCE FROM PLANE PLN19 TO PLANE PLN9 PAR TO   ZAXIS,NO_RADIUS  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+M        4.900      0.100      0.100      4.853     -0.047      0.000 --#------
+DIM #72DIST37= 2D DISTANCE FROM CIRCLE CIR5 TO CIRCLE CIR14     (CENTER TO CENTER),NO_RADIUS  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+M      144.000      0.130      0.130    144.064      0.064      0.000 ------#--
+#75.1FCFLOC1 = POSITION OF CIR5          FIT TO DATUMS=ON  DEV PERPEN CENTERLINE=ON  UNITS=MM
+AX    NOMINAL       +TOL       -TOL      BONUS       MEAS         DEV     OUTTOL
+X      12.000                                      11.993      -0.007           
+Y     126.670                                     126.600      -0.070           
+D1                                                        PLANE PLN2 AT RFS           
+D2      3.332      0.100      0.100                 3.354 CIRCLE CIR4 AT RFS           
+TP        RFS      0.250                 0.000      0.141       0.141      0.000 -----#---
+#75.2,76.FCFLOC1 = POSITION OF CIR14          FIT TO DATUMS=ON  DEV PERPEN CENTERLINE=ON  UNITS=MM
+AX    NOMINAL       +TOL       -TOL      BONUS       MEAS         DEV     OUTTOL
+X    -132.000                                    -131.966       0.034           
+Y     126.670                                     126.637      -0.033           
+D1                                                        PLANE PLN2 AT RFS           
+D2      3.332      0.100      0.100                 3.354 CIRCLE CIR4 AT RFS           
+TP        RFS      0.250                 0.000      0.095       0.095      0.000 ---#-----
+DIM #73DIST38= 2D DISTANCE FROM PLANE PLN5 TO PLANE PLN13 PAR TO   XAXIS,NO_RADIUS  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+M      137.720      0.500      0.500    137.415     -0.305      0.000 -#-------
+PART NUMBER=ENCLOSURE BASE    DATE=17-Sep-25     TIME=10:12:41 AM           PAGE#=4
+DIM #78LOC1= LOCATION OF CIRCLE CIR14  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+Y      126.670      0.130      0.130    126.668     -0.002      0.000 ----#----
+DIM #87DIST19= 2D DISTANCE FROM CIRCLE CIR14 TO PLANE PLN13 PAR TO   XAXIS,NO_RADIUS  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+M      140.310      1.000      1.000    140.261     -0.049      0.000 ----#----
+DIM #90DIST21= 2D DISTANCE FROM LINE LIN4 TO PLANE PLN13 PAR TO   XAXIS,NO_RADIUS  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+M        1.630      0.130      0.130      1.624     -0.006      0.000 ----#----
+DIM SLOT LENGTH WIDTH LOC1= LOCATION OF SLOT SLTS1  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+D      133.280      0.130      0.130    133.233     -0.047      0.000 --#------
+L      228.280      0.130      0.130    228.211     -0.069      0.000 --#------
+DIM #99.1LOC1= LOCATION OF CIRCLE CIR15  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+R       11.000      0.130      0.130     11.028      0.028      0.000 -----#---
+DIM #99.2LOC1= LOCATION OF CIRCLE CIR16  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+R       11.000      0.130      0.130     11.051      0.051      0.000 ------#--
+#100FCFPROF1 = SURFACE PROFILE OF CYL1  FORMANDLOCATION  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+M        0.000      0.125      0.125      0.025      0.025      0.000 ---#|----
+DIM #101DIST16= 2D DISTANCE FROM PLANE PLN2 TO PLANE PLN3 PAR TO   ZAXIS,NO_RADIUS  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+M        1.500      0.100      0.100      1.495     -0.005      0.000 ----#----
+#32.FCFLOC5 = POSITION OF CIR4      FIT TO DATUMS=ON  DEV PERPEN CENTERLINE=ON  UNITS=MM
+AX    NOMINAL       +TOL       -TOL      BONUS       MEAS        DEV     OUTTOL
+X      -8.330                                      -8.330      0.000           
+Y       0.000                                       0.000      0.000           
+D1                                                        PLANE PLN2 AT RFS           
+TP        RFS      0.250                 0.000      0.000      0.000      0.000 #--------
+FCFLOC6 = POSITION OF CIR3      FIT TO DATUMS=ON  DEV PERPEN CENTERLINE=ON  UNITS=MM
+AX    NOMINAL       +TOL       -TOL      BONUS       MEAS        DEV     OUTTOL
+X    -128.330                                    -128.330      0.000           
+Y       0.000                                       0.000      0.000           
+D1                                                        PLANE PLN2 AT RFS           
+TP        RFS      0.250                 0.000      0.000      0.000      0.000 #--------
+FCFLOC7 = POSITION OF CIR13      FIT TO DATUMS=ON  DEV PERPEN CENTERLINE=ON  UNITS=MM
+AX    NOMINAL       +TOL       -TOL      BONUS       MEAS        DEV     OUTTOL
+X    -126.330                                    -126.330      0.000           
+Y     215.000                                     215.000      0.000           
+D1                                                        PLANE PLN2 AT RFS           
+TP        RFS      0.250                 0.000      0.000      0.000      0.000 #--------
+FCFLOC8 = POSITION OF CIR12      FIT TO DATUMS=ON  DEV PERPEN CENTERLINE=ON  UNITS=MM
+AX    NOMINAL       +TOL       -TOL      BONUS       MEAS        DEV     OUTTOL
+X     -10.330                                     -10.330      0.000           
+Y     215.000                                     215.000      0.000           
+D1                                                        PLANE PLN2 AT RFS           
+TP        RFS      0.250                 0.000      0.000      0.000      0.000 #--------
+DIM #26.DIST1= 2D DISTANCE FROM PLANE PLN13 TO CIRCLE CIR4 PAR TO   XAXIS,NO_RADIUS  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+M        8.330      0.200      0.200      8.325     -0.005      0.000 ----#----
+DIM #93DIST4= 2D DISTANCE FROM POINT PNT4 TO PLANE PLN17 PAR TO   XAXIS,NO_RADIUS  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+M       21.700      0.130      0.130     21.626     -0.074      0.000 -#-------
+DIM #94DIST5= 2D DISTANCE FROM POINT PNT5 TO PLANE PLN17 PAR TO   XAXIS,NO_RADIUS  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+M       33.500      0.130      0.130     33.425     -0.075      0.000 -#-------
+DIM #95DIST8= 2D DISTANCE FROM POINT PNT6 TO PLANE PLN17 PAR TO   XAXIS,NO_RADIUS  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+M       72.950      0.130      0.130     72.887     -0.063      0.000 --#------
+PART NUMBER=ENCLOSURE BASE    DATE=17-Sep-25     TIME=10:12:41 AM           PAGE#=5
+DIM #96DIST9= 2D DISTANCE FROM POINT PNT7 TO PLANE PLN17 PAR TO   XAXIS,NO_RADIUS  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+M       84.750      0.130      0.130     84.675     -0.075      0.000 -#-------
+DIM #97DIST10= 2D DISTANCE FROM POINT PNT8 TO PLANE PLN17 PAR TO   XAXIS,NO_RADIUS  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+M      105.950      0.130      0.130    105.902     -0.048      0.000 --#------
+DIM #98DIST11= 2D DISTANCE FROM POINT PNT9 TO PLANE PLN17 PAR TO   XAXIS,NO_RADIUS  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+M      117.700      0.130      0.130    117.637     -0.063      0.000 --#------
+DIM #48.1= LOCATION OF PLANE PLN10  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+Y      232.830      0.500      0.500    232.842      0.012      0.000 ----#----
+DIM #48.2= LOCATION OF PLANE PLN11  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+Y      232.830      0.500      0.500    232.991      0.161      0.000 -----#---
+DIM #26,31.1.33= POSITION OF CIRCLE CIR4  UNITS=MM
+AX    NOMINAL       +TOL       -TOL      BONUS       MEAS        DEV     OUTTOL
+X      -8.330                                      -8.311      0.019           
+Y       8.330                                       8.276     -0.054           
+TP        RFS      0.450                 0.000      0.114      0.114      0.000 --#------
+DIM #31.2= POSITION OF CIRCLE CIR3  UNITS=MM
+AX    NOMINAL       +TOL       -TOL      BONUS       MEAS        DEV     OUTTOL
+X    -128.330                                    -128.275      0.055           
+Y       8.330                                       8.276     -0.054           
+TP        RFS      0.450                 0.000      0.154      0.154      0.000 ---#-----
+DIM #31.3= POSITION OF CIRCLE CIR13  UNITS=MM
+AX    NOMINAL       +TOL       -TOL      BONUS       MEAS        DEV     OUTTOL
+X    -126.330                                    -126.284      0.046           
+Y     223.330                                     223.215     -0.115           
+TP        RFS      0.450                 0.000      0.247      0.247      0.000 ----#----
+DIM #31.4= POSITION OF CIRCLE CIR12  UNITS=MM
+AX    NOMINAL       +TOL       -TOL      BONUS       MEAS        DEV     OUTTOL
+X     -10.330                                     -10.247      0.083           
+Y     223.330                                     223.208     -0.122           
+TP        RFS      0.450                 0.000      0.295      0.295      0.000 -----#---
+DIM #91.= LOCATION OF LINE LIN3  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+Y      229.910      0.130      0.130    229.804     -0.106      0.000 #--------
+DIM #92..LOC3= LOCATION OF POINT PNT12  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+Y        1.630      0.130      0.130      1.597     -0.033      0.000 ---#-----
+DIM #88.DIST1= 2D DISTANCE FROM PLANE PLN17 TO LINE LIN5 PAR TO   XAXIS,NO_RADIUS  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+M      134.910      0.130      0.130    134.848     -0.062      0.000 --#------

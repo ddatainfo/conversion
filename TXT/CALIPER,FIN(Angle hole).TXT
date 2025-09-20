@@ -1,0 +1,39 @@
+ 
+        
+DATE=17-Sep-25                       TIME=10:09:32 AM
+PART NAME  : CALIPER,FIN(Angle hole)      PARTNO:326301114E
+REV NUMBER : E
+SER NUMBER : ATIS19A
+STATS COUNT : 1
+ 
+*********************** JS AUTO CAST FOUNDRY INDIA LTD ************************
+SERIAL NUMBER : 1
+'Inspector name' : 1
+DIM #1C LOC5= POSITION OF POINT PNT1  SD=0.000  UNITS=MM
+AX    NOMINAL       +TOL       -TOL      BONUS       MEAS        DEV     OUTTOL
+X    -176.600                                    -176.741     -0.141           
+Y       6.500                                       6.598      0.098           
+TP        RFS      0.800                 0.000      0.343      0.343      0.000 -#--
+DIM #2A ANGL1= 3D ANGLE FROM CYLINDER CYL1 TO   ZAXIS
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+A    28°00'00"   1°00'00"   1°00'00"  28°03'48"   0°03'48"   0°00'00" --#-
+DIM #34A ANGL2= 2D ANGLE FROM CYLINDER CYL1 TO   ZAXIS
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+A     5°00'00"   1°00'00"   1°00'00"   4°39'37"  -0°20'23"   0°00'00" -#--
+DIM #1D LOC6= POSITION OF POINT PNT2  SD=0.000  UNITS=MM
+AX    NOMINAL       +TOL       -TOL      BONUS       MEAS        DEV     OUTTOL
+X      96.600                                      96.726      0.126           
+Y       6.500                                       6.567      0.067           
+TP        RFS      0.800                 0.000      0.286      0.286      0.000 -#--
+DIM #2B ANGL3= 2D ANGLE FROM CYLINDER CYL2 TO   ZAXIS
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+A    28°00'00"   1°00'00"   1°00'00"  27°38'20"  -0°21'40"   0°00'00" -#--
+DIM #34A ANGL4= 2D ANGLE FROM CYLINDER CYL2 TO   ZAXIS
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+A     5°00'00"   1°00'00"   1°00'00"   4°56'17"  -0°03'43"   0°00'00" -#--
+DIM #43A DIST3= 2D DISTANCE FROM POINT PNT5 TO POINT PNT6 PAR TO   YAXIS,NO_RADIUS  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+M        1.000      0.060      0.060      1.010      0.010      0.000 --#-
+DIM #43B DIST4= 2D DISTANCE FROM POINT PNT4 TO POINT PNT3 PAR TO   YAXIS,NO_RADIUS  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+M        1.000      0.060      0.060      1.002      0.002      0.000 --#-

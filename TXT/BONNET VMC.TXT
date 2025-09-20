@@ -1,0 +1,54 @@
+ 
+        
+DATE=17-Sep-25                       TIME=10:10:57 AM
+PART NAME  : BONNET VMC
+REV NUMBER : 
+SER NUMBER : 
+STATS COUNT : 1
+ 
+DIM #39LOC1= LOCATION OF CIRCLE CIR9  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+D       16.000      0.110      0.000     16.083      0.083      0.000 ------#--
+DIM LOC2= LOCATION OF CIRCLE CIR10  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+D       16.000      0.110      0.000     16.083      0.083      0.000 ------#--
+DIM LOC3= LOCATION OF CIRCLE CIR12  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+D       16.000      0.110      0.000     16.080      0.080      0.000 ------#--
+DIM LOC4= LOCATION OF CIRCLE CIR11  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+D       16.000      0.110      0.000     16.092      0.092      0.000 -------#-
+DIM LOC5= LOCATION OF CIRCLE CIR13  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+D       14.000      0.100      0.100     14.052      0.052      0.000 ------#--
+DIM LOC6= LOCATION OF CIRCLE CIR16  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+D       14.000      0.100      0.100     14.045      0.045      0.000 ------#--
+DIM LOC7= LOCATION OF CIRCLE CIR14  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+D       14.000      0.100      0.100     14.050      0.050      0.000 ------#--
+DIM LOC8= LOCATION OF CIRCLE CIR15  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+D       14.000      0.100      0.100     14.043      0.043      0.000 ------#--
+DIM #46LOC9= LOCATION OF CIRCLE CIR20  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+X        0.000      0.100      0.100      0.015      0.015      0.000 -----#---
+Z        0.000      0.100      0.100      0.051      0.051      0.000 ------#--
+D       90.000      0.100      0.100     89.988     -0.012      0.000 ---#-----
+DIM #44LOC10= LOCATION OF CIRCLE CIR19  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+X        0.000      0.100      0.100      0.009      0.009      0.000 ----#----
+Z        0.000      0.100      0.100      0.018      0.018      0.000 -----#---
+D      100.000      0.100      0.100    100.002      0.002      0.000 ----#----
+DIM #45LOC11= LOCATION OF CIRCLE CIR18  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+X        0.000      0.100      0.100      0.005      0.005      0.000 ----#----
+Z        0.000      0.100      0.100      0.029      0.029      0.000 -----#---
+D       42.000      0.100      0.100     42.041      0.041      0.000 ------#--
+DIM #49ANGL1= 2D ANGLE TO LINE LIN7 FROM LINE LIN4
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+A    45°00'00"   1°00'00"   1°00'00"  45°03'21"   0°03'21"   0°00'00" ----#----
+PART NUMBER=BONNET VMC    DATE=17-Sep-25     TIME=10:10:57 AM           PAGE#=2
+DIM ANGL2= 2D ANGLE FROM LINE LIN5 TO LINE LIN6
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+A    45°00'00"   1°00'00"   1°00'00"  44°58'15"  -0°01'45"   0°00'00" ----#----

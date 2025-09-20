@@ -1,0 +1,78 @@
+ 
+        
+DATE=17-Sep-25                       TIME=10:06:05 AM
+PART NAME  : SPRING BRACKET/SPRING-RR FRT
+REV NUMBER : 
+SER NUMBER : A 400 325 0901
+STATS COUNT : 1
+ 
+SERIAL NUMBER  : AKF 39
+DIM #4 FLAT1= FLATNESS OF PLANE PLN2  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+M        0.000      0.500      0.000      0.072      0.072      0.000 -#-------
+DIM #13 LOC1= LOCATION OF PLANE PLN3  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+Y       42.500      0.200      0.200     42.474     -0.026      0.000 ---#-----
+DIM #14 LOC1= LOCATION OF CIRCLE CIR10  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+Y      142.000      0.200      0.200    142.077      0.077      0.000 ------#--
+DIM LOC1= LOCATION OF CIRCLE CIR11  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+Y      142.000      0.200      0.200    142.087      0.087      0.000 ------#--
+DIM #15 DIST1= 3D DISTANCE FROM PLANE PLN3 TO PLANE PLN4,SHORTEST=OFF,NO_RADIUS  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+M       85.000      0.200      0.000     85.107      0.107      0.000 ----#----
+DIM #16 PERP1= PERPENDICULARITY OF CYLINDER CYL1,RFS TO PLANE PLN2,RFS EXTENDLENGTH=0.000  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+M        0.000      0.200      0.000      0.012      0.012      0.000 #--------
+DIM PERP1= PERPENDICULARITY OF PLANE PLN7,RFS TO CYLINDER CYL1,RFS  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+M        0.000      0.200      0.000      0.035      0.035      0.000 -#-------
+DIM #18 PERP1= PERPENDICULARITY OF PLANE PLN2,RFS TO CYLINDER CYL2,RFS  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+M        0.000      0.300      0.000      0.083      0.083      0.000 --#------
+DIM #21 DIST1= 3D DISTANCE FROM PLANE PLN4 TO PLANE PLN7,SHORTEST=OFF,NO_RADIUS  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+M       27.500      0.200      0.200     27.433     -0.067      0.000 --#------
+DIM #23 LOC2= LOCATION OF CIRCLE CIR10  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+Y      142.000      0.200      0.200    142.077      0.077      0.000 ------#--
+D       12.000      0.200      0.200     12.051      0.051      0.000 -----#---
+DIM #25 DIST1= 2D DISTANCE FROM CIRCLE CIR12 TO CIRCLE CIR10 PAR TO   ZAXIS,NO_RADIUS  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+M       16.000      0.200      0.000     16.069      0.069      0.000 ---#-----
+DIM #36 DIST2= 2D DISTANCE FROM CIRCLE CIR5 TO CIRCLE CIR6 PAR TO   XAXIS,NO_RADIUS  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+M      240.000      0.200      0.200    239.826     -0.174      0.000 #--------
+DIM #37 DIST8= 2D DISTANCE FROM POINT PNT1 TO CIRCLE CIR8 PAR TO   XAXIS,NO_RADIUS  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+M      170.000      0.200      0.200    169.866     -0.134      0.000 -#-------
+PART NUMBER=SPRING BRACKET/SPRING-RR FRT    DATE=17-Sep-25     TIME=10:06:06 AM           PAGE#=2
+DIM #39 LOC2= LOCATION OF CIRCLE CIR8  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+D       14.700      0.100      0.100     14.707      0.007      0.000 ----#----
+DIM #46 LOC2= LOCATION OF CIRCLE CIR5  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+D       14.700      0.100      0.100     14.706      0.006      0.000 ----#----
+DIM #47 LOC2= LOCATION OF CIRCLE CIR8  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+X       85.000      0.200      0.200     84.904     -0.096      0.000 --#------
+Z     -240.000      0.200      0.200   -240.012     -0.012      0.000 ----#----
+DIM #52 LOC2= LOCATION OF CIRCLE CIR5  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+Z      -80.000      0.200      0.200    -80.004     -0.004      0.000 ----#----
+DIM #56 DIST11= 2D DISTANCE FROM PLANE PLN5 TO PLANE PLN6     (CENTER TO CENTER),NO_RADIUS  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+M       47.000      0.200      0.200     46.946     -0.054      0.000 ---#-----
+DIM #59 PERP1= PERPENDICULARITY OF PLANE PLN2,RFS TO CYLINDER CYL2,RFS  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+M        0.000      0.300      0.000      0.083      0.083      0.000 --#------
+DIM #60 LOC2= LOCATION OF CYLINDER CYL2  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+D       30.000      0.100      0.100     30.008      0.008      0.000 ----#----
+DIM #73 LOC2= LOCATION OF CIRCLE CIR6  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+X      120.000      0.200      0.200    119.887     -0.113      0.000 -#-------
+DIM LOC2= LOCATION OF CIRCLE CIR5  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+X     -120.000      0.200      0.200   -119.938      0.062      0.000 -----#---

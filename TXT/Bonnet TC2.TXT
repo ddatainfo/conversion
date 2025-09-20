@@ -1,0 +1,72 @@
+ 
+        
+DATE=17-Sep-25                       TIME=10:10:30 AM
+PART NAME  : Bonnet TC2
+REV NUMBER : 
+SER NUMBER : 
+STATS COUNT : 1
+ 
+#13FCFRNOUT3 = CIRCULAR RUNOUT OF CIR6   UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+M        0.000      0.050      0.000      0.022      0.022      0.000 ----#----
+FCFRNOUT5 = CIRCULAR RUNOUT OF CIR8   UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+M        0.000      0.050      0.000      0.029      0.029      0.000 -----#---
+#14FCFRNOUT6 = CIRCULAR RUNOUT OF CIR9   UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+M        0.000      0.050      0.000      0.033      0.033      0.000 -----#---
+#9FCFRNOUT7 = CIRCULAR RUNOUT OF PLN4   UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+M        0.000      0.050      0.000      0.040      0.040      0.000 -------#-
+#15FCFRNOUT8 = CIRCULAR RUNOUT OF PLN7   UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+M        0.000      0.050      0.000      0.016      0.016      0.000 --#------
+DIM #32RNOUT1= CIRCULAR RUNOUT OF CIRCLE CIR2 TO CIRCLE CIR10  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+M        0.000      0.050      0.000      0.032      0.032      0.000 -----#---
+DIM LOC1= LOCATION OF CIRCLE CIR5  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+D       55.000      0.200      0.200     55.056      0.056      0.000 -----#---
+DIM #3LOC2= LOCATION OF CIRCLE CIR2  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+D       32.000      0.039      0.000     31.998     -0.002      0.002 <--------
+DIM #35LOC2= LOCATION OF CIRCLE CIR10  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+D       24.000      0.100      0.000     24.037      0.037      0.000 ---#-----
+DIM LOC2= LOCATION OF CIRCLE CIR6  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+D      134.000      0.200      0.200    133.985     -0.015      0.000 ----#----
+DIM #18LOC3= LOCATION OF CIRCLE CIR7  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+D       14.000      0.300      0.000     14.272      0.272      0.000 --------#
+DIM #20 LOC3= LOCATION OF CIRCLE CIR9  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+D       51.550      0.050      0.050     51.555      0.005      0.000 ----#----
+DIM #21LOC3= LOCATION OF CIRCLE CIR8  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+D       67.850      0.050      0.050     67.852      0.002      0.000 ----#----
+DIM #31 LOC3= LOCATION OF PLANE PLN3  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+PART NUMBER=Bonnet TC2    DATE=17-Sep-25     TIME=10:10:31 AM           PAGE#=2
+Y       56.000      0.200      0.200     55.992     -0.008      0.000 ----#----
+DIM #28LOC3= LOCATION OF PLANE PLN5  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+Y      177.000      0.500      0.500    176.969     -0.031      0.000 ----#----
+DIM #8LOC3= LOCATION OF PLANE PLN4  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+Y       53.000      0.100      0.100     53.011      0.011      0.000 ----#----
+DIM #27LOC3= LOCATION OF PLANE PLN7  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+Y      138.500      0.200      0.200    138.478     -0.022      0.000 ----#----
+DIM #24DIST2= 3D DISTANCE FROM PLANE PLN5 TO PLANE PLN7,SHORTEST=OFF,NO_RADIUS  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+M       38.500      0.300      0.300     38.492     -0.008      0.000 ----#----
+DIM #25DIST2= 3D DISTANCE FROM PLANE PLN6 TO PLANE PLN7,SHORTEST=OFF,NO_RADIUS  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+M        4.000      0.100      0.100      4.036      0.036      0.000 ------#--
+DIM #26 DIST1= 3D DISTANCE FROM PLANE PLN7 TO PLANE PLN3,SHORTEST=OFF,NO_RADIUS  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+M       82.500      0.100      0.100     82.485     -0.015      0.000 ---#-----
+DIM FLAT1= FLATNESS OF PLANE PLN3  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+M        0.000      0.050      0.000      0.011      0.011      0.000 --#------

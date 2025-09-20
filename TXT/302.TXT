@@ -1,0 +1,62 @@
+ 
+        
+DATE=17-Sep-25                       TIME=10:04:11 AM
+PART NAME  : BRACKET RH
+REV NUMBER : 
+SER NUMBER : A4003220302
+STATS COUNT : 1
+ 
+Serial Number: : AKG51
+DIM #2LOC1= LOCATION OF PLANE PLN4  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+Y       42.500      0.200      0.200     42.520      0.020      0.000 ----#----
+DIM #8FLAT1= FLATNESS OF PLANE PLN2  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+M        0.000      0.500      0.000      0.014      0.014      0.000 #--------
+DIM #11PERP1= PERPENDICULARITY OF PLANE PLN2,RFS TO PLANE PLN5,RFS  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+M        0.000      0.200      0.000      0.056      0.056      0.000 --#------
+DIM #17ADIST1= 3D DISTANCE FROM CYLINDER CYL1 TO PLANE PLN5,SHORTEST=OFF,NO_RADIUS  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+M       82.000      0.500      0.500     82.004      0.004      0.000 ----#----
+DIM #17,20LOC1= LOCATION OF CIRCLE CIR9  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+Z      -16.000      0.000      0.400    -16.041     -0.041      0.000 --------#
+D       12.000      0.200      0.200     12.149      0.149      0.000 -------#-
+DIM #25PARL1= PARALLELISM OF PLANE PLN2,RFS TO PLANE PLN3,RFS  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+M        0.000      0.200      0.000      0.058      0.058      0.000 --#------
+DIM #28PERP1= PERPENDICULARITY OF PLANE PLN2,RFS TO CYLINDER CYL1,RFS  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+M        0.000      0.200      0.000      0.056      0.056      0.000 --#------
+DIM LOC1= LOCATION OF CYLINDER CYL1  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+D       30.000      0.010      0.010     30.008      0.008      0.000 --------#
+DIM #34DIST5= 2D DISTANCE FROM CIRCLE CIR11 TO CIRCLE CIR10 PAR TO   XAXIS,NO_RADIUS  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+M      145.000      0.200      0.200    144.963     -0.037      0.000 ---#-----
+DIM #35DIST6= 2D DISTANCE FROM CIRCLE CIR4 TO CIRCLE CIR5 PAR TO   XAXIS,NO_RADIUS  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+M      133.000      0.200      0.200    132.984     -0.016      0.000 ----#----
+DIM #39LOC2= LOCATION OF CIRCLE CIR4  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+D       16.600      0.200      0.000     16.681      0.081      0.000 ---#-----
+DIM #63LOC2= LOCATION OF CIRCLE CIR11  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+D       14.600      0.200      0.000     14.743      0.143      0.000 ------#--
+DIM #53DIST7= 3D DISTANCE FROM PLANE PLN5 TO CIRCLE CIR4,SHORTEST=OFF,NO_RADIUS  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+M       43.000      0.200      0.200     42.915     -0.085      0.000 --#------
+PART NUMBER=BRACKET RH    DATE=17-Sep-25     TIME=10:04:11 AM           PAGE#=2
+DIM #53-1DIST7= 3D DISTANCE FROM PLANE PLN5 TO CIRCLE CIR5,SHORTEST=OFF,NO_RADIUS  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+M       43.000      0.200      0.200     42.991     -0.009      0.000 ----#----
+DIM #52DIST7= 3D DISTANCE FROM PLANE PLN5 TO CIRCLE CIR6,SHORTEST=OFF,NO_RADIUS  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+M       73.000      0.200      0.200     72.950     -0.050      0.000 ---#-----
+DIM #57DIST8= 2D DISTANCE FROM PLANE PLN2 TO CIRCLE CIR11 PAR TO   YAXIS,NO_RADIUS  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+M       43.000      0.200      0.200     43.047      0.047      0.000 -----#---
+DIM DIST9= 2D DISTANCE FROM PLANE PLN2 TO CIRCLE CIR10 PAR TO   YAXIS,NO_RADIUS  UNITS=MM
+AX    NOMINAL       +TOL       -TOL       MEAS        DEV     OUTTOL
+M       43.000      0.200      0.200     43.127      0.127      0.000 -------#-
