@@ -1,8 +1,14 @@
 import re
 import os
 import chardet
+import logging
+
+# Configure logging
+logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
 
 def extract_measurements(file_path):
+    logging.info(f"Starting extraction of measurements from file: {file_path}")
+
     measurements = []
     current_dim = None
     units = None
@@ -42,7 +48,7 @@ def extract_measurements(file_path):
                     dev = parts[5]
                     outtol = parts[6]
                     symbols = ' '.join(parts[7:]) if len(parts) > 7 else ''
-                    measurements.append({
+                    measurement = {
                         'dimension': current_dim,
                         'units': units,
                         'axis': ax,
@@ -53,10 +59,13 @@ def extract_measurements(file_path):
                         'deviation': dev,
                         'outtol': outtol,
                         'symbols': symbols
-                    })
+                    }
+                    logging.debug(f"Extracted measurement: {measurement}")
+                    measurements.append(measurement)
                 i += 1
         else:
             i += 1
+    logging.info(f"Extraction completed. Total measurements extracted: {len(measurements)}")
     return measurements
 
 def process_and_write_measurements(folder_path):
@@ -65,7 +74,7 @@ def process_and_write_measurements(folder_path):
         if file_name.endswith('.TXT'):
             file_path = os.path.join(folder_path, file_name)
             # Extract measurements from the file
-            print("File:",file_name)
+            logging.info(f"Processing file: {file_name}")
             measurements = extract_measurements(file_path)
             # Prepare output file path
             output_file_path = os.path.join(folder_path, f"output_{file_name}")
@@ -76,6 +85,7 @@ def process_and_write_measurements(folder_path):
                 for entry in measurements:
                     output_file.write(f"{entry}\n")
                     output_file.write("-------------------\n")
+            logging.info(f"Processed and wrote measurements to: {output_file_path}")
 
 # Example usage
 if __name__ == "__main__":
