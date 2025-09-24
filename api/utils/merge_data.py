@@ -4,8 +4,8 @@ import sys
 import re
 import logging
 sys.path.append("../")  # Add parent directory to sys.path for relative imports
-from utils.excel_extraction import extract_excel_data
-from utils.extract_measurements import extract_measurements
+from api.utils.excel_extraction import extract_excel_data
+from api.utils.extract_measurements import extract_measurements
 
 # Configure logging
 logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')

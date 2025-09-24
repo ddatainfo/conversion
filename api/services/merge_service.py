@@ -1,6 +1,6 @@
 import sys
 sys.path.append("../")  # Add parent directory to sys.path for relative imports
-from utils.merge_data import final_data
+from api.utils.merge_data import final_data
 import os
 import uuid
 
