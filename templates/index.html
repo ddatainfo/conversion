@@ -247,7 +247,7 @@
                 // Simulate progress updates
                 updateProgress(20, 'Uploading files...');
                 
-                const response = await fetch('/files/upload/', {
+                const response = await fetch('/conversion/files/upload/', {
                     method: 'POST',
                     body: formData
                 });
