@@ -16,7 +16,10 @@ def final_data(excel_file_path, txt_file_path, output_file_path):
     logging.debug(f"TXT file path: {txt_file_path}")
 
     # Extract data from Excel file
-    pre_header, excel_data = extract_excel_data(excel_file_path)
+    pre_header, excel_data , header_data= extract_excel_data(excel_file_path)
+    print("****************")
+    logging.debug(f"Header data: {header_data}")
+    print("****************")
 
     # Standardize column names to uppercase for consistency
     pre_header.columns = [col.upper() for col in pre_header.columns]
@@ -89,9 +92,27 @@ def final_data(excel_file_path, txt_file_path, output_file_path):
     pre_header = pre_header[common_columns]
     merged_df = merged_df[common_columns + ['MEASURED']]  # Add 'Measured' column back
 
-    # Write to Excel file
-    merged_df.to_excel(output_file_path, index=False)
-    logging.info(f"Merged data written to {output_file_path}")
+    # Combine header_data and merged_df
+    logging.info("Combining header data and merged DataFrame.")
+    header_df = pd.DataFrame(header_data)
+    header_df.loc[len(header_df)] = ['head'] * len(header_df.columns)
+    # Remove columns from merged_df
+    #merged_df = merged_df.drop(columns=merged_df.columns, errors='ignore')
+    logging.debug(f"Meged_Df: {merged_df}")
+
+    # Extract data from merged_df without columns
+    merged_data_only = pd.DataFrame(merged_df.values)
+
+    # Replace the row with 'head' values with merged_df columns
+    header_df.iloc[-1] = merged_df.columns.tolist()
+
+    # Combine header_df and merged_df
+    combined_df = pd.concat([header_df, merged_data_only], ignore_index=True)
+    logging.debug(f"Combined DataFrame shape: {combined_df.shape}")
+
+    # Write combined DataFrame to Excel file
+    combined_df.to_excel(output_file_path, index=False)
+    logging.info(f"Combined data written to {output_file_path}")
 
 if __name__ == "__main__":
     excel_file_path = "/mnt/c/Users/admin/Desktop/conversion/TXT/report/901/PDIR-DAI S10 -901.xlsx"  # Path to Excel file
