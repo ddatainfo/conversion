@@ -1,6 +1,10 @@
 import pandas as pd
 import numpy as np
 import logging
+import sys
+sys.path.append("../") 
+
+from utils.remove_rows import remove_rows_after
 
 # Configure logging
 logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -21,6 +25,8 @@ def extract_excel_data(file_path):
         raise KeyError("Could not find a row containing 'Print No'.")
 
     # Extract parent and sub-columns
+    headers = remove_rows_after(file_path,header_row_idx)
+   
     parent_columns = df.iloc[header_row_idx]
     sub_columns = df.iloc[header_row_idx + 1]
 
@@ -45,8 +51,11 @@ def extract_excel_data(file_path):
     df.columns = combined_columns
     logging.debug(f"Columns after renaming: {df.columns.tolist()}")
 
-    # Extract rows up to header_row_idx
-    pre_header_df = df.iloc[:header_row_idx]
+    # Extract rows above header_row_idx while preserving the exact format
+    pre_header_df = df.iloc[:header_row_idx].copy()
+    pre_header_df.reset_index(drop=True, inplace=True)
+    logging.debug("Extracted pre-header data with exact format:")
+    logging.debug(pre_header_df)
 
     # Drop header rows
     df = df.drop(range(header_row_idx + 2))
@@ -71,7 +80,7 @@ def extract_excel_data(file_path):
         logging.debug(f"Extracted data for {key_col} {key}: {value}")
 
     logging.info(f"Extraction completed. Total items extracted: {len(data_dict)}")
-    return pre_header_df, data_dict
+    return pre_header_df, data_dict, headers
 
 if __name__ == "__main__":
     file_path = "final_inscpection.xlsx"  # Path to Excel file
