@@ -1,10 +1,6 @@
 import pandas as pd
 import numpy as np
 import logging
-import sys
-sys.path.append("../") 
-
-from utils.remove_rows import remove_rows_after
 
 # Configure logging
 logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
