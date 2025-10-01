@@ -5,6 +5,33 @@ import logging
 # Configure logging
 logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
 
+
+
+def remove_rows_after(file_path, row_number):
+    """
+    Reads an Excel file, removes rows after a specific row number, and saves the result as an Excel file.
+
+    :param file_path: Path to the Excel file.
+    :param row_number: The row number after which rows should be removed.
+    :param output_file: Path to save the modified Excel file.
+    """
+    logging.info(f"Reading Excel file: {file_path}")
+
+    # Read the Excel file
+    df = pd.read_excel(file_path, header=None)
+    logging.debug(f"Original DataFrame shape: {df.shape}")
+
+    # Remove rows after the specified row number
+    df = df.iloc[:row_number]
+    logging.info(f"Rows after row {row_number} have been removed.")
+    logging.debug(f"Modified DataFrame shape: {df.shape}")
+
+    # Save the modified DataFrame to an Excel file
+    # df.to_excel(output_file, index=False, header=False)
+    # logging.info(f"Modified DataFrame saved to {output_file}")
+    return df
+
+
 def extract_excel_data(file_path):
     logging.info(f"Starting extraction of data from Excel file: {file_path}")
 
@@ -21,6 +48,8 @@ def extract_excel_data(file_path):
         raise KeyError("Could not find a row containing 'Print No'.")
 
     # Extract parent and sub-columns
+    headers = remove_rows_after(file_path,header_row_idx)
+   
     parent_columns = df.iloc[header_row_idx]
     sub_columns = df.iloc[header_row_idx + 1]
 
@@ -45,8 +74,11 @@ def extract_excel_data(file_path):
     df.columns = combined_columns
     logging.debug(f"Columns after renaming: {df.columns.tolist()}")
 
-    # Extract rows up to header_row_idx
-    pre_header_df = df.iloc[:header_row_idx]
+    # Extract rows above header_row_idx while preserving the exact format
+    pre_header_df = df.iloc[:header_row_idx].copy()
+    pre_header_df.reset_index(drop=True, inplace=True)
+    logging.debug("Extracted pre-header data with exact format:")
+    logging.debug(pre_header_df)
 
     # Drop header rows
     df = df.drop(range(header_row_idx + 2))
@@ -71,7 +103,7 @@ def extract_excel_data(file_path):
         logging.debug(f"Extracted data for {key_col} {key}: {value}")
 
     logging.info(f"Extraction completed. Total items extracted: {len(data_dict)}")
-    return pre_header_df, data_dict
+    return pre_header_df, data_dict, headers
 
 if __name__ == "__main__":
     file_path = "final_inscpection.xlsx"  # Path to Excel file
