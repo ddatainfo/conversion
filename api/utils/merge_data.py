@@ -39,6 +39,8 @@ def final_data(excel_file_path, txt_file_path, output_file_path):
     logging.debug(f"Extracted measurements: {measurements}")
 
     merged_data = []
+    # Collect measurements which don't match any excel_data dimension
+    unmatched_data = []
     for mes in measurements:
         logging.debug(f"Processing measurement: {mes}")
         # Handle cases where dimension does not include a '#' character
@@ -62,6 +64,7 @@ def final_data(excel_file_path, txt_file_path, output_file_path):
             continue
 
         if dimension_number in excel_data:
+
             exc = excel_data[dimension_number]
             logging.debug(f"Matching Excel data found for dimension {dimension_number}.")
 
@@ -75,22 +78,58 @@ def final_data(excel_file_path, txt_file_path, output_file_path):
             # Add updated exc to merged data
             merged_data.append(exc)
             logging.debug(f"Updated Excel data: {exc}")
+        else:
+            # Record unmatched measurement for later review/export
+            logging.debug(f"No matching Excel entry for dimension {dimension_number}; saving to unmatched list.")
+            unmatched_record = {
+                'DIMENSION_NUMBER': dimension_number,
+                'DIMENSION': mes.get('dimension'),
+                'MEASURED': mes.get('measured'),
+                'TOLERANCE_MAX': mes.get('+tol'),
+                'TOLERANCE_MIN': mes.get('-tol'),
+                'DEVIATION': mes.get('deviation'),
+                'OUT_OF_TOLERANCE': mes.get('outtol')
+            }
+            unmatched_data.append(unmatched_record)
 
     # Convert merged data to DataFrame
     logging.info(f"Data frame:{merged_data}")
     merged_df = pd.DataFrame(merged_data)
     logging.info("Converted merged data to DataFrame.")
+    logging.info(f"Unmatched data records: {len(unmatched_data)}")
+    logging.info(f"Unmatched data records: {unmatched_data}")
     logging.debug(f"Merged DataFrame columns: {merged_df.columns.tolist()}")
 
     # Reset index for merged_df to ensure unique indices
     merged_df = merged_df.reset_index(drop=True)
     logging.debug("Merged DataFrame index reset.")
 
-    # Filter columns to include only those with matching names
-    common_columns = list(set(pre_header.columns) & set(merged_df.columns))
-    logging.debug(f"Common columns between pre_header and merged_df: {common_columns}")
-    pre_header = pre_header[common_columns]
-    merged_df = merged_df[common_columns + ['MEASURED']]  # Add 'Measured' column back
+    # Filter columns to include only those with matching names, in the order of merged_df
+    # This preserves the order seen in the merged DataFrame (important for output layout)
+    # Build common columns in merged_df order, but exclude any NaN-like labels
+    common_columns = [col for col in merged_df.columns if col in pre_header.columns]
+    # Remove columns that are actual NaN or the literal string 'NAN'
+    removed_nan_cols = [c for c in common_columns if (pd.isna(c) or (isinstance(c, str) and c.strip().upper() == 'NAN'))]
+    if removed_nan_cols:
+        logging.warning(f"Removing NaN-like columns from common_columns: {removed_nan_cols}")
+        common_columns = [c for c in common_columns if c not in removed_nan_cols]
+    logging.debug(f"Common columns in merged_df order: {common_columns}")
+
+    # If pre_header has duplicate column labels, reindex will fail. Remove duplicates (keep first).
+    dup_cols = pre_header.columns[pre_header.columns.duplicated()].tolist()
+    if dup_cols:
+        logging.warning(f"Found duplicate columns in pre_header, dropping duplicates (keep first): {dup_cols}")
+        # Keep first occurrence of each column label
+        pre_header = pre_header.loc[:, ~pre_header.columns.duplicated()]
+
+    # Reindex pre_header to the common columns (safe - will insert NaN for missing)
+    pre_header = pre_header.reindex(columns=common_columns)
+
+    # Prepare merged_df keep list, ensure 'MEASURED' is appended if present
+    merged_keep = list(common_columns)
+    if 'MEASURED' in merged_df.columns and 'MEASURED' not in merged_keep:
+        merged_keep.append('MEASURED')
+    merged_df = merged_df.reindex(columns=merged_keep)
 
     # Combine header_data and merged_df
     logging.info("Combining header data and merged DataFrame.")
@@ -100,19 +139,48 @@ def final_data(excel_file_path, txt_file_path, output_file_path):
     #merged_df = merged_df.drop(columns=merged_df.columns, errors='ignore')
     logging.debug(f"Meged_Df: {merged_df}")
 
-    # Extract data from merged_df without columns
-    merged_data_only = pd.DataFrame(merged_df.values)
+    # Create a replacement row for header_df with merged_df column names
+    n_header_cols = len(header_df.columns)
+    merged_col_names = [str(c) for c in merged_df.columns]
 
-    # Replace the row with 'head' values with merged_df columns
-    header_df.iloc[-1] = merged_df.columns.tolist()
+    # Build a row matching header_df column count: place merged column names left-to-right, pad with empty strings
+    replacement_row = [""] * n_header_cols
+    for i, name in enumerate(merged_col_names):
+        if i < n_header_cols:
+            replacement_row[i] = name
+        else:
+            break
 
-    # Combine header_df and merged_df
+    # Assign the replacement row (safe length)
+    header_df.iloc[-1] = replacement_row
+
+    # Now build merged_data_only as rows matching header_df columns.
+    n_merged_cols = merged_df.shape[1]
+    rows = []
+    for arr in merged_df.values:
+        rowvals = list(arr)
+        if n_merged_cols < n_header_cols:
+            # pad with NaN to match header width
+            rowvals = rowvals + [np.nan] * (n_header_cols - n_merged_cols)
+        elif n_merged_cols > n_header_cols:
+            # truncate extra merged columns to fit into header width
+            rowvals = rowvals[:n_header_cols]
+        rows.append(rowvals)
+
+    merged_data_only = pd.DataFrame(rows, columns=header_df.columns)
+
+    # Combine header_df and merged_data_only
     combined_df = pd.concat([header_df, merged_data_only], ignore_index=True)
     logging.debug(f"Combined DataFrame shape: {combined_df.shape}")
 
-    # Write combined DataFrame to Excel file
-    combined_df.to_excel(output_file_path, index=False)
-    logging.info(f"Combined data written to {output_file_path}")
+    # Write combined DataFrame to Excel file. If there are unmatched records, write them to a separate sheet.
+    with pd.ExcelWriter(output_file_path, engine='openpyxl') as writer:
+        combined_df.to_excel(writer, sheet_name='combined', index=False)
+        if unmatched_data:
+            unmatched_df = pd.DataFrame(unmatched_data)
+            unmatched_df.to_excel(writer, sheet_name='unmatched', index=False)
+
+    logging.info(f"Combined data written to {output_file_path} (sheets: combined{', unmatched' if unmatched_data else ''})")
 
 if __name__ == "__main__":
     excel_file_path = "/mnt/c/Users/admin/Desktop/conversion/TXT/report/901/PDIR-DAI S10 -901.xlsx"  # Path to Excel file
