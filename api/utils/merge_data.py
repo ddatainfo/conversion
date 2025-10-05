@@ -20,7 +20,12 @@ def _try_float(v):
     except Exception:
         return np.nan
 
-def final_data(excel_file_path, txt_file_path, output_file_path):
+def final_data(excel_file_path, txt_file_paths, output_file_path):
+    """Merge Excel templates with one or more TXT measurement files.
+
+    txt_file_paths may be a single path (str) or a list of paths. When multiple TXT files
+    are provided, measured values are written into columns named MEASURED-1, MEASURED-2, ...
+    """
     logging.info("Starting data merging process.")
 
     # Extract data from Excel file
@@ -35,75 +40,84 @@ def final_data(excel_file_path, txt_file_path, output_file_path):
     pre_header.columns = [col.upper() for col in pre_header.columns]
     pre_header = pre_header.reset_index(drop=True)
 
-    # Extract measurements
-    measurements = extract_measurements(txt_file_path)
+    # Accept either a single path or a list of paths
+    if isinstance(txt_file_paths, (str, bytes)):
+        txt_file_paths = [txt_file_paths]
 
-    # Group measurements by parsed dimension_number
-    measurements_by_dim = {}
-    for mes in measurements:
-        if '#' in mes.get('dimension', ''):
-            try:
-                dimension_part = mes.get('dimension', '').split('=')[0]
-                dimension = re.search(r'#(\d+)', dimension_part)
-                if dimension:
-                    dim_no = int(dimension.group(1))
-                    measurements_by_dim.setdefault(dim_no, []).append(mes)
-            except Exception:
-                continue
+    # For each TXT file, extract measurements and build a mapping dim->first_measurement
+    per_file_maps = []  # list of dicts: [{dim: measurement, ...}, ...]
+    for txt_path in txt_file_paths:
+        file_meas = extract_measurements(txt_path)
+        mmap = {}
+        for mes in file_meas:
+            if '#' in mes.get('dimension', ''):
+                try:
+                    dp = mes.get('dimension', '').split('=')[0]
+                    d = re.search(r'#(\d+)', dp)
+                    if d:
+                        dn = int(d.group(1))
+                        # keep first measurement for this dimension in this file
+                        if dn not in mmap:
+                            mmap[dn] = mes
+                except Exception:
+                    continue
+        per_file_maps.append(mmap)
 
-    logging.debug(f"Collected measurements by dimension: {measurements_by_dim}")
+    logging.debug(f"Per-file measurement maps count: {len(per_file_maps)}")
 
-    # Build merged_data by iterating excel_data templates; populate with measurement values when available
+    # Build merged_data by iterating excel_data templates; create MEASURED-N columns for each file
     merged_data = []
     unmatched_data = []
 
+    multi_files = len(per_file_maps) > 1
+
     for key, template in excel_data.items():
-        # Work on a shallow copy
-        excel_template = template.copy()
-        mes_list = measurements_by_dim.get(key)
-        if mes_list:
-            for mes in mes_list:
-                exc = excel_template.copy()
-                # Overwrite template fields when measurement provides values
-                if mes.get('+tol') is not None:
-                    exc['TOLERANCE MAX'] = _try_float(mes.get('+tol'))
-                if mes.get('-tol') is not None:
-                    exc['TOLERANCE MIN'] = _try_float(mes.get('-tol'))
-                if mes.get('measured') is not None:
-                    exc['MEASURED'] = _try_float(mes.get('measured'))
+        base = template.copy()
+        # For multiple files, add MEASURED-1..N; for single file, use 'MEASURED'
+        if multi_files:
+            for idx, mmap in enumerate(per_file_maps, start=1):
+                mes = mmap.get(key)
+                colname = f"MEASURED-{idx}"
+                if mes is not None:
+                    base[colname] = _try_float(mes.get('measured'))
                 else:
-                    # Ensure MEASURED key exists
-                    exc.setdefault('MEASURED', np.nan)
-                exc['DEVIATION'] = _try_float(mes.get('deviation'))
-                exc['OUT OF TOLERANCE'] = _try_float(mes.get('outtol'))
-                merged_data.append(exc)
+                    base[colname] = np.nan
+            # keep original DEVIATION/OUT OF TOLERANCE empty (or could compute from first file)
+            merged_data.append(base)
         else:
-            # No measurements for this template: ensure MEASURED key exists (empty)
-            row = {}
-            inserted = False
-            for k, v in excel_template.items():
-                row[k] = v
-                if not inserted and k == 'INSTRUMENT':
-                    row['MEASURED'] = ''
-                    inserted = True
-            if not inserted:
-                row['MEASURED'] = ''
-            merged_data.append(row)
+            # single file behavior: populate MEASURED, DEVIATION, OUT OF TOLERANCE if available
+            mmap = per_file_maps[0] if per_file_maps else {}
+            mes = mmap.get(key)
+            if mes is not None:
+                if mes.get('+tol') is not None:
+                    base['TOLERANCE MAX'] = _try_float(mes.get('+tol'))
+                if mes.get('-tol') is not None:
+                    base['TOLERANCE MIN'] = _try_float(mes.get('-tol'))
+                base['MEASURED'] = _try_float(mes.get('measured'))
+                base['DEVIATION'] = _try_float(mes.get('deviation'))
+                base['OUT OF TOLERANCE'] = _try_float(mes.get('outtol'))
+            else:
+                # ensure MEASURED exists
+                base.setdefault('MEASURED', '')
+            merged_data.append(base)
 
     # Any measurement keys not present in excel_data are unmatched
-    unmatched_keys = set(measurements_by_dim.keys()) - set(excel_data.keys())
+    all_keys_in_files = set().union(*[set(m.keys()) for m in per_file_maps]) if per_file_maps else set()
+    unmatched_keys = all_keys_in_files - set(excel_data.keys())
     for uk in unmatched_keys:
-        for mes in measurements_by_dim.get(uk, []):
-            unmatched_record = {
-                'DIMENSION_NUMBER': uk,
-                'DIMENSION': mes.get('dimension'),
-                'MEASURED': mes.get('measured'),
-                'TOLERANCE_MAX': mes.get('+tol'),
-                'TOLERANCE_MIN': mes.get('-tol'),
-                'DEVIATION': mes.get('deviation'),
-                'OUT_OF_TOLERANCE': mes.get('outtol')
-            }
-            unmatched_data.append(unmatched_record)
+        for mmap in per_file_maps:
+            mes = mmap.get(uk)
+            if mes:
+                unmatched_record = {
+                    'DIMENSION_NUMBER': uk,
+                    'DIMENSION': mes.get('dimension'),
+                    'MEASURED': mes.get('measured'),
+                    'TOLERANCE_MAX': mes.get('+tol'),
+                    'TOLERANCE_MIN': mes.get('-tol'),
+                    'DEVIATION': mes.get('deviation'),
+                    'OUT_OF_TOLERANCE': mes.get('outtol')
+                }
+                unmatched_data.append(unmatched_record)
 
     logging.info(f"Built merged_data rows: {len(merged_data)}; unmatched: {len(unmatched_data)}")
 
@@ -118,6 +132,11 @@ def final_data(excel_file_path, txt_file_path, output_file_path):
     if removed_nan_cols:
         logging.warning(f"Removing NaN-like columns from common_columns: {removed_nan_cols}")
         common_columns = [c for c in common_columns if c not in removed_nan_cols]
+    # Remove IDENTIFICATION NO from common_columns (case-insensitive)
+    id_cols = [c for c in common_columns if isinstance(c, str) and c.strip().upper() == 'IDENTIFICATION NO']
+    if id_cols:
+        logging.info(f"Removing identification columns from common_columns: {id_cols}")
+        common_columns = [c for c in common_columns if c not in id_cols]
 
     # Deduplicate pre_header columns if needed
     if pre_header.columns.duplicated().any():
@@ -129,8 +148,12 @@ def final_data(excel_file_path, txt_file_path, output_file_path):
 
     # Ensure MEASURED preserved in merged_df
     merged_keep = list(common_columns)
-    if 'MEASURED' in merged_df.columns and 'MEASURED' not in merged_keep:
-        merged_keep.append('MEASURED')
+    logging.debug(f"Common columns in merged_df order: {common_columns}")
+    # Always preserve any measured-like columns (MEASURED, MEASURED-1, MEASURED-2, ...)
+    measured_cols = [c for c in merged_df.columns if isinstance(c, str) and c.upper().startswith('MEASURED')]
+    for mc in measured_cols:
+        if mc not in merged_keep:
+            merged_keep.append(mc)
     merged_df = merged_df.reindex(columns=merged_keep)
 
     # Build header_df and append merged rows (with safe padding/truncation)
@@ -161,6 +184,7 @@ def final_data(excel_file_path, txt_file_path, output_file_path):
 
     combined_df = pd.concat([header_df, merged_data_only], ignore_index=True)
 
+  
     # Write to Excel with unmatched sheet if any
     with pd.ExcelWriter(output_file_path, engine='openpyxl') as writer:
         combined_df.to_excel(writer, sheet_name='combined', index=False)
