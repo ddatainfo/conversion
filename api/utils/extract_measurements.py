@@ -60,7 +60,7 @@ def extract_measurements(file_path):
                         'outtol': outtol,
                         'symbols': symbols
                     }
-                    logging.debug(f"Extracted measurement: {measurement}")
+                    #logging.debug(f"Extracted measurement: {measurement}")
                     measurements.append(measurement)
                 i += 1
         else:

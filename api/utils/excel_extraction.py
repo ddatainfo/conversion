@@ -100,7 +100,7 @@ def extract_excel_data(file_path):
         key = row[key_col]
         value = row.to_dict()
         data_dict[key] = value
-        logging.debug(f"Extracted data for {key_col} {key}: {value}")
+        #logging.debug(f"Extracted data for {key_col} {key}: {value}")
 
     logging.info(f"Extraction completed. Total items extracted: {len(data_dict)}")
     return pre_header_df, data_dict, headers
