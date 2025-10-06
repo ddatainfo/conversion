@@ -6,24 +6,34 @@
     <title>Report Conversion Tool</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             max-width: 800px;
             margin: 0 auto;
             padding: 20px;
-            background-color: #f5f5f5;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
         }
         
         .container {
-            background-color: white;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
         
         h1 {
-            color: #333;
+            color: #2c3e50;
             text-align: center;
             margin-bottom: 30px;
+            font-size: 2.5em;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
         
         .upload-section {
@@ -37,44 +47,55 @@
         label {
             display: block;
             margin-bottom: 8px;
-            font-weight: bold;
-            color: #555;
+            font-weight: 600;
+            color: #34495e;
+            font-size: 1.1em;
         }
         
         input[type="file"] {
             width: 100%;
-            padding: 10px;
-            border: 2px dashed #ddd;
-            border-radius: 5px;
-            background-color: #fafafa;
+            padding: 15px;
+            border: 2px dashed #bdc3c7;
+            border-radius: 12px;
+            background: linear-gradient(145deg, #f8f9fa, #e9ecef);
             cursor: pointer;
-            transition: border-color 0.3s;
+            transition: all 0.3s ease;
+            font-size: 14px;
         }
         
         input[type="file"]:hover {
-            border-color: #007bff;
+            border-color: #667eea;
+            background: linear-gradient(145deg, #e9ecef, #f8f9fa);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
         }
         
         .upload-btn {
-            background-color: #007bff;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
-            padding: 12px 30px;
+            padding: 15px 30px;
             border: none;
-            border-radius: 5px;
+            border-radius: 12px;
             cursor: pointer;
             font-size: 16px;
+            font-weight: 600;
             width: 100%;
             margin-top: 20px;
-            transition: background-color 0.3s;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
         }
         
         .upload-btn:hover {
-            background-color: #0056b3;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+            background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
         }
         
         .upload-btn:disabled {
-            background-color: #6c757d;
+            background: linear-gradient(135deg, #95a5a6, #7f8c8d);
             cursor: not-allowed;
+            transform: none;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         }
         
         .progress-container {
@@ -84,25 +105,28 @@
         
         .progress-bar {
             width: 100%;
-            height: 20px;
-            background-color: #e9ecef;
-            border-radius: 10px;
+            height: 24px;
+            background: linear-gradient(145deg, #e9ecef, #dee2e6);
+            border-radius: 12px;
             overflow: hidden;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
         }
         
         .progress-fill {
             height: 100%;
-            background-color: #28a745;
+            background: linear-gradient(90deg, #667eea, #764ba2);
             width: 0%;
             transition: width 0.3s ease;
-            border-radius: 10px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
         }
         
         .progress-text {
             text-align: center;
-            margin-top: 10px;
-            font-weight: bold;
-            color: #555;
+            margin-top: 12px;
+            font-weight: 600;
+            color: #34495e;
+            font-size: 14px;
         }
         
         .result-container {
@@ -113,44 +137,51 @@
         }
         
         .result-success {
-            background-color: #d4edda;
-            border: 1px solid #c3e6cb;
+            background: linear-gradient(145deg, #d4edda, #c3e6cb);
+            border: 1px solid #27ae60;
             color: #155724;
+            box-shadow: 0 4px 12px rgba(39, 174, 96, 0.2);
         }
         
         .result-error {
-            background-color: #f8d7da;
-            border: 1px solid #f5c6cb;
+            background: linear-gradient(145deg, #f8d7da, #f5c6cb);
+            border: 1px solid #e74c3c;
             color: #721c24;
+            box-shadow: 0 4px 12px rgba(231, 76, 60, 0.2);
         }
         
         .download-link {
             display: inline-block;
-            margin-top: 10px;
-            padding: 8px 16px;
-            background-color: #28a745;
+            margin-top: 15px;
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #27ae60, #2ecc71);
             color: white;
             text-decoration: none;
-            border-radius: 5px;
-            transition: background-color 0.3s;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(39, 174, 96, 0.3);
         }
         
         .download-link:hover {
-            background-color: #218838;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(39, 174, 96, 0.4);
+            background: linear-gradient(135deg, #2ecc71, #27ae60);
         }
         
         .file-info {
-            font-size: 12px;
-            color: #666;
-            margin-top: 5px;
+            font-size: 13px;
+            color: #7f8c8d;
+            margin-top: 8px;
+            font-style: italic;
         }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>Report Conversion Tool</h1>
-        <p style="text-align: center; color: #666; margin-bottom: 30px;">
-            Upload an Excel file (.xls/.xlsx) and a TXT file to merge them together.
+        <p style="text-align: center; color: #5a6c7d; margin-bottom: 30px; font-size: 1.1em; line-height: 1.6;">
+            Upload an Excel file (.xls/.xlsx) and multiple TXT files to merge them together.
         </p>
         
         <form id="uploadForm">
@@ -162,8 +193,8 @@
                 </div>
                 
                 <div class="file-input-group">
-                    <label for="txtFile">Text File (.txt):</label>
-                    <input type="file" id="txtFile" name="txt_file" accept=".txt" required>
+                    <label for="txtFiles">Text Files (.txt) - Select multiple files:</label>
+                    <input type="file" id="txtFiles" name="txt_files" accept=".txt" multiple required>
                     <div class="file-info" id="txtInfo"></div>
                 </div>
                 
@@ -197,11 +228,13 @@
             }
         });
         
-        document.getElementById('txtFile').addEventListener('change', function(e) {
-            const file = e.target.files[0];
+        document.getElementById('txtFiles').addEventListener('change', function(e) {
+            const files = e.target.files;
             const info = document.getElementById('txtInfo');
-            if (file) {
-                info.textContent = `Selected: ${file.name} (${(file.size / 1024).toFixed(2)} KB)`;
+            if (files.length > 0) {
+                const fileNames = Array.from(files).map(f => f.name).join(', ');
+                const totalSize = Array.from(files).reduce((sum, f) => sum + f.size, 0);
+                info.textContent = `Selected ${files.length} file(s): ${fileNames} (Total: ${(totalSize / 1024).toFixed(2)} KB)`;
             } else {
                 info.textContent = '';
             }
@@ -212,31 +245,38 @@
             e.preventDefault();
             
             const excelFile = document.getElementById('excelFile').files[0];
-            const txtFile = document.getElementById('txtFile').files[0];
+            const txtFiles = document.getElementById('txtFiles').files;
             
-            if (!excelFile || !txtFile) {
-                showResult('Please select both Excel and TXT files.', 'error');
+            if (!excelFile || txtFiles.length === 0) {
+                showResult('Please select an Excel file and at least one TXT file.', 'error');
                 return;
             }
             
             // Validate file types
             const excelExtension = excelFile.name.toLowerCase().split('.').pop();
-            const txtExtension = txtFile.name.toLowerCase().split('.').pop();
             
             if (!['xls', 'xlsx'].includes(excelExtension)) {
                 showResult('Please select a valid Excel file (.xls or .xlsx).', 'error');
                 return;
             }
             
-            if (txtExtension !== 'txt') {
-                showResult('Please select a valid TXT file.', 'error');
-                return;
+            // Validate all TXT files
+            for (let i = 0; i < txtFiles.length; i++) {
+                const txtExtension = txtFiles[i].name.toLowerCase().split('.').pop();
+                if (txtExtension !== 'txt') {
+                    showResult(`Please select valid TXT files only. "${txtFiles[i].name}" is not a valid TXT file.`, 'error');
+                    return;
+                }
             }
             
             // Prepare form data
             const formData = new FormData();
             formData.append('excel_file', excelFile);
-            formData.append('txt_file', txtFile);
+            
+            // Append all TXT files
+            for (let i = 0; i < txtFiles.length; i++) {
+                formData.append('txt_files', txtFiles[i]);
+            }
             
             // Show progress bar and disable button
             showProgress();
