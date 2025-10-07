@@ -1,3 +1,4 @@
+import os
 import pandas as pd
 import numpy as np
 import logging
@@ -17,8 +18,8 @@ def remove_rows_after(file_path, row_number):
     """
     logging.info(f"Reading Excel file: {file_path}")
 
-    # Read the Excel file
-    df = pd.read_excel(file_path, header=None)
+    # Read the Excel file using a compatible engine
+    df = _safe_read_excel(file_path, header=None)
     logging.debug(f"Original DataFrame shape: {df.shape}")
 
     # Remove rows after the specified row number
@@ -35,8 +36,8 @@ def remove_rows_after(file_path, row_number):
 def extract_excel_data(file_path):
     logging.info(f"Starting extraction of data from Excel file: {file_path}")
 
-    # Read the entire sheet without headers
-    df = pd.read_excel(file_path, header=None)
+    # Read the entire sheet without headers using a compatible engine
+    df = _safe_read_excel(file_path, header=None)
     # Find the row containing 'Print No'
     header_row_idx = None
     for idx, row in df.iterrows():
@@ -104,6 +105,33 @@ def extract_excel_data(file_path):
 
     logging.info(f"Extraction completed. Total items extracted: {len(data_dict)}")
     return pre_header_df, data_dict, headers
+
+
+def _safe_read_excel(file_path, **kwargs):
+    """Read Excel using an explicit engine based on file extension.
+
+    .xlsx -> openpyxl
+    .xls  -> xlrd
+    If engine is unavailable, raises ImportError with actionable message.
+    """
+    ext = os.path.splitext(file_path)[1].lower()
+    engine = None
+    if ext == '.xls':
+        engine = 'xlrd'
+    elif ext in ('.xlsx', '.xlsm', '.xltx', '.xltm'):
+        engine = 'openpyxl'
+    # If extension unknown, let pandas try but prefer openpyxl
+    try:
+        if engine:
+            return pd.read_excel(file_path, engine=engine, **kwargs)
+        return pd.read_excel(file_path, **kwargs)
+    except ImportError as e:
+        # Provide a helpful message about installing the required package
+        if engine == 'xlrd':
+            raise ImportError("xlrd is required to read .xls files. Install it with: pip install xlrd==1.2.0") from e
+        if engine == 'openpyxl':
+            raise ImportError("openpyxl is required to read .xlsx files. Install it with: pip install openpyxl") from e
+        raise
 
 if __name__ == "__main__":
     file_path = "final_inscpection.xlsx"  # Path to Excel file
