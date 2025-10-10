@@ -10,6 +10,11 @@ from api.utils.extract_measurements import extract_measurements
 # Configure logging
 logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
 
+# For cell format preservation
+import openpyxl
+from openpyxl.styles import PatternFill, Border, Side, Alignment, Font
+from openpyxl.utils import get_column_letter
+
 
 def _try_float(v):
     """Safely convert v to float; return np.nan on failure."""
@@ -20,6 +25,44 @@ def _try_float(v):
     except Exception:
         return np.nan
 
+# Cell format copy function from ref.py
+def copy_cell_format(source_cell, target_cell):
+    """Copy all formatting from source cell to target cell."""
+    if source_cell.has_style:
+        target_cell.font = Font(
+            name=source_cell.font.name,
+            size=source_cell.font.size,
+            bold=source_cell.font.bold,
+            italic=source_cell.font.italic,
+            vertAlign=source_cell.font.vertAlign,
+            underline=source_cell.font.underline,
+            strike=source_cell.font.strike,
+            color=source_cell.font.color
+        )
+        target_cell.border = Border(
+            left=Side(border_style=source_cell.border.left.style,
+                     color=source_cell.border.left.color),
+            right=Side(border_style=source_cell.border.right.style,
+                      color=source_cell.border.right.color),
+            top=Side(border_style=source_cell.border.top.style,
+                    color=source_cell.border.top.color),
+            bottom=Side(border_style=source_cell.border.bottom.style,
+                       color=source_cell.border.bottom.color)
+        )
+        target_cell.fill = PatternFill(
+            fill_type=source_cell.fill.fill_type,
+            start_color=source_cell.fill.start_color,
+            end_color=source_cell.fill.end_color
+        )
+        target_cell.alignment = Alignment(
+            horizontal=source_cell.alignment.horizontal,
+            vertical=source_cell.alignment.vertical,
+            text_rotation=source_cell.alignment.text_rotation,
+            wrap_text=source_cell.alignment.wrap_text,
+            shrink_to_fit=source_cell.alignment.shrink_to_fit,
+            indent=source_cell.alignment.indent
+        )
+
 def final_data(excel_file_path, txt_file_paths, output_file_path):
     """Merge Excel templates with one or more TXT measurement files.
 
@@ -29,7 +72,7 @@ def final_data(excel_file_path, txt_file_paths, output_file_path):
     logging.info("Starting data merging process.")
 
     # Extract data from Excel file
-    pre_header, excel_data, header_data = extract_excel_data(excel_file_path)
+    pre_header, excel_data, header_data,xlsx_file_path = extract_excel_data(excel_file_path)
     logging.debug(f"excel_Data keys: {list(excel_data)}")
 
     # Normalize keys inside excel_data templates to uppercase so they match pre_header columns
@@ -184,10 +227,35 @@ def final_data(excel_file_path, txt_file_paths, output_file_path):
 
     combined_df = pd.concat([header_df, merged_data_only], ignore_index=True)
 
-  
-    # Write to Excel with unmatched sheet if any
+    # Write to Excel with format preservation for header
+    # Load source workbook to copy header formats
+    source_wb = openpyxl.load_workbook(xlsx_file_path)
+    source_ws = source_wb.active
+
     with pd.ExcelWriter(output_file_path, engine='openpyxl') as writer:
         combined_df.to_excel(writer, sheet_name='combined', index=False)
+        ws = writer.sheets['combined']
+
+        # Copy header cell formats from source to output
+        header_rows = len(header_df)
+        logging.info(f"Copying header formats for {header_rows} rows.")
+        for row in range(header_rows):
+            for col in range(1, ws.max_column + 1):
+                # Defensive: Only copy if source has enough columns
+                if col <= source_ws.max_column:
+                    source_cell = source_ws.cell(row=row+1, column=col)
+                    target_cell = ws.cell(row=row+1, column=col)
+                    copy_cell_format(source_cell, target_cell)
+
+        # Optionally, copy first data row format to all data rows
+        if source_ws.max_row > header_rows:
+            for row in range(header_rows+1, ws.max_row+1):
+                for col in range(1, ws.max_column + 1):
+                    if col <= source_ws.max_column:
+                        source_cell = source_ws.cell(row=header_rows+1, column=col)
+                        target_cell = ws.cell(row=row, column=col)
+                        copy_cell_format(source_cell, target_cell)
+
         if unmatched_data:
             pd.DataFrame(unmatched_data).to_excel(writer, sheet_name='unmatched', index=False)
 
