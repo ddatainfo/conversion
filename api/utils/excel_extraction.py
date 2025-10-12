@@ -2,35 +2,106 @@ import os
 import pandas as pd
 import numpy as np
 import logging
+import openpyxl
+import xlrd
+import os
+from openpyxl.styles import PatternFill, Border, Side, Alignment, Font
+from openpyxl.utils import get_column_letter
 
 # Configure logging
 logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
 
 
+def copy_cell_format(source_cell, target_cell):
+    """Copy all formatting from source cell to target cell."""
+    if source_cell.has_style:
+        target_cell.font = Font(
+            name=source_cell.font.name,
+            size=source_cell.font.size,
+            bold=source_cell.font.bold,
+            italic=source_cell.font.italic,
+            vertAlign=source_cell.font.vertAlign,
+            underline=source_cell.font.underline,
+            strike=source_cell.font.strike,
+            color=source_cell.font.color
+        )
+        
+        target_cell.border = Border(
+            left=Side(border_style=source_cell.border.left.style,
+                     color=source_cell.border.left.color),
+            right=Side(border_style=source_cell.border.right.style,
+                      color=source_cell.border.right.color),
+            top=Side(border_style=source_cell.border.top.style,
+                    color=source_cell.border.top.color),
+            bottom=Side(border_style=source_cell.border.bottom.style,
+                       color=source_cell.border.bottom.color)
+        )
+        
+        target_cell.fill = PatternFill(
+            fill_type=source_cell.fill.fill_type,
+            start_color=source_cell.fill.start_color,
+            end_color=source_cell.fill.end_color
+        )
+        
+        target_cell.alignment = Alignment(
+            horizontal=source_cell.alignment.horizontal,
+            vertical=source_cell.alignment.vertical,
+            text_rotation=source_cell.alignment.text_rotation,
+            wrap_text=source_cell.alignment.wrap_text,
+            shrink_to_fit=source_cell.alignment.shrink_to_fit,
+            indent=source_cell.alignment.indent
+        )
 
-def remove_rows_after(file_path, row_number):
+
+def remove_rows_after_index(input_file, output_file, index_row):
     """
-    Reads an Excel file, removes rows after a specific row number, and saves the result as an Excel file.
-
-    :param file_path: Path to the Excel file.
-    :param row_number: The row number after which rows should be removed.
-    :param output_file: Path to save the modified Excel file.
+    Read Excel file (both .xls and .xlsx formats), remove all rows after the specified index,
+    and save to a new file.
+    
+    Args:
+        input_file: Path to input Excel file (.xls or .xlsx)
+        output_file: Path to save the modified Excel file (will be saved as .xlsx)
+        index_row: Index after which all rows should be removed (1-based index)
     """
-    logging.info(f"Reading Excel file: {file_path}")
+    logging.info(f"Reading Excel file: {input_file}")
+    logging.info(f"Index row to keep: {index_row}")
+    
+    # Check file extension
+    file_ext = os.path.splitext(input_file)[1].lower()
+    temp_file = None
+    
+    try:
+        # If input is .xls, convert to .xlsx first
+        if file_ext == '.xls':
+            logging.info("Converting .xls to .xlsx format")
+            logging.error("Only .xlsx files are supported currently")
+            
+        else:
+            wb = openpyxl.load_workbook(input_file)
+        
+        # Process each sheet
+        for sheet_name in wb.sheetnames:
+            ws = wb[sheet_name]
+            max_row = ws.max_row
+            
+            if max_row > index_row:
+                # Delete rows from bottom to top to avoid index shifting
+                logging.info(f"Removing rows from {index_row + 1} to {max_row}")
+                ws.delete_rows(index_row + 1, max_row - index_row)
+        
+        logging.info(f"Saving modified Excel file to: {output_file}")
+        wb.save(output_file)
+        logging.info("Completed successfully")
+        
+    finally:
+        # Clean up temporary file if it was created
+        if temp_file and os.path.exists(temp_file):
+            try:
+                os.remove(temp_file)
+                logging.info("Cleaned up temporary file")
+            except Exception as e:
+                logging.warning(f"Failed to clean up temporary file: {str(e)}")
 
-    # Read the Excel file using a compatible engine
-    df = _safe_read_excel(file_path, header=None)
-    logging.debug(f"Original DataFrame shape: {df.shape}")
-
-    # Remove rows after the specified row number
-    df = df.iloc[:row_number]
-    logging.info(f"Rows after row {row_number} have been removed.")
-    logging.debug(f"Modified DataFrame shape: {df.shape}")
-
-    # Save the modified DataFrame to an Excel file
-    # df.to_excel(output_file, index=False, header=False)
-    # logging.info(f"Modified DataFrame saved to {output_file}")
-    return df
 
 
 def extract_excel_data(file_path):
@@ -49,7 +120,17 @@ def extract_excel_data(file_path):
         raise KeyError("Could not find a row containing 'Print No'.")
 
     # Extract parent and sub-columns
-    headers = remove_rows_after(file_path,header_row_idx)
+    header_file_path = "temp_modified.xlsx"
+    
+    try:
+        remove_rows_after_index(
+            input_file=file_path,
+            output_file=header_file_path,
+            index_row=header_row_idx
+        )
+    except Exception as e:
+        logging.error(f"Error processing Excel file: {str(e)}")
+        raise  # Re-raise the exception to see the full error details
    
     parent_columns = df.iloc[header_row_idx]
     sub_columns = df.iloc[header_row_idx + 1]
@@ -76,10 +157,10 @@ def extract_excel_data(file_path):
     logging.debug(f"Columns after renaming: {df.columns.tolist()}")
 
     # Extract rows above header_row_idx while preserving the exact format
-    pre_header_df = df.iloc[:header_row_idx].copy()
-    pre_header_df.reset_index(drop=True, inplace=True)
-    logging.debug("Extracted pre-header data with exact format:")
-    logging.debug(pre_header_df)
+    # pre_header_df = df.iloc[:header_row_idx].copy()
+    # pre_header_df.reset_index(drop=True, inplace=True)
+    # logging.debug("Extracted pre-header data with exact format:")
+    # logging.debug(pre_header_df)
 
     # Drop header rows
     df = df.drop(range(header_row_idx + 2))
@@ -104,7 +185,7 @@ def extract_excel_data(file_path):
         #logging.debug(f"Extracted data for {key_col} {key}: {value}")
 
     logging.info(f"Extraction completed. Total items extracted: {len(data_dict)}")
-    return pre_header_df, data_dict, headers
+    return data_dict, header_file_path,header_row_idx
 
 
 def _safe_read_excel(file_path, **kwargs):

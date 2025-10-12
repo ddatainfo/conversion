@@ -6,7 +6,9 @@ import os
 
 router = APIRouter()
 
-UPLOAD_DIR = "uploads"
+# Get absolute path for uploads directory
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+UPLOAD_DIR = os.path.join(BASE_DIR, "uploads")
 os.makedirs(UPLOAD_DIR, exist_ok=True)
 
 @router.post("/upload/")
@@ -33,6 +35,23 @@ async def upload_files(excel_file: UploadFile = File(...), txt_files: List[Uploa
             f.write(await t.read())
         txt_paths.append(path)
 
-    output_path = process_files(excel_path, txt_paths)
-
-    return FileResponse(output_path, media_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", filename="merged_output.xlsx")
+    try:
+        output_path = process_files(excel_path, txt_paths)
+        
+        # Verify file exists before sending response
+        if not os.path.exists(output_path):
+            raise HTTPException(
+                status_code=500,
+                detail="Output file was not generated successfully"
+            )
+            
+        return FileResponse(
+            output_path, 
+            media_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+            filename="merged_output.xlsx"
+        )
+    except Exception as e:
+        raise HTTPException(
+            status_code=500,
+            detail=f"Error processing files: {str(e)}"
+        )
