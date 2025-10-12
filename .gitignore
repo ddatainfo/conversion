@@ -8,7 +8,7 @@ __pycache__/
 
 # Ignore PDF files
 *.pdf
-
+venv/
 
 # Ignore uploads folder
 api/uploads/
@@ -19,3 +19,4 @@ api/uploads/
 *.bak
 .DS_Store
 Thumbs.db
+
