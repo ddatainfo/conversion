@@ -4,6 +4,7 @@ import numpy as np
 import logging
 import openpyxl
 import xlrd
+import re
 import os
 from openpyxl.styles import PatternFill, Border, Side, Alignment, Font
 from openpyxl.utils import get_column_letter
@@ -109,10 +110,10 @@ def extract_excel_data(file_path):
 
     # Read the entire sheet without headers using a compatible engine
     df = _safe_read_excel(file_path, header=None)
-    # Find the row containing 'Print No'
+    # Find the row containing 'Print No' using regex
     header_row_idx = None
     for idx, row in df.iterrows():
-        if any(str(cell).strip().lower() == 'print no' for cell in row):
+        if any(re.match(r'^print\s*no\.?\s*$', str(cell).strip().lower()) for cell in row):
             header_row_idx = idx
             logging.info(f"Header row index found at: {header_row_idx}")
             break
@@ -135,19 +136,37 @@ def extract_excel_data(file_path):
     parent_columns = df.iloc[header_row_idx]
     sub_columns = df.iloc[header_row_idx + 1]
 
-    # Combine parent and sub-columns
-    combined_columns = []
-    for parent, sub in zip(parent_columns, sub_columns):
-        parent_str = str(parent).strip() if not pd.isna(parent) else ''
-        sub_str = str(sub).strip() if not pd.isna(sub) else ''
-        if parent_str and sub_str:
-            combined_columns.append(f"{parent_str} {sub_str}")
-        elif parent_str:
-            combined_columns.append(parent_str)
-        elif sub_str:
-            combined_columns.append(sub_str)
-        else:
-            combined_columns.append('nan')
+    # Check if sub_columns has any non-empty data
+    has_sub_data = any(not pd.isna(cell) and str(cell).strip() != '' for cell in sub_columns)
+    
+    if not has_sub_data:
+        # If no sub-column data, use parent columns directly
+        combined_columns = []
+        for parent, sub in zip(parent_columns, sub_columns):
+            parent_str = str(parent).strip() if not pd.isna(parent) else ''
+            sub_str = str(sub).strip() if not pd.isna(sub) else ''
+            if parent_str and sub_str:
+                combined_columns.append(f"{parent_str} {sub_str}")
+            elif parent_str:
+                combined_columns.append(parent_str)
+            elif sub_str:
+                combined_columns.append(sub_str)
+            else:
+                combined_columns.append('nan')
+        logging.info("Found sub-column data, combining parent and sub columns")
+        start_row = header_row_idx +2
+
+    else:
+        # Combine parent and sub-columns
+
+        combined_columns = [
+            str(col).strip() if not pd.isna(col) else 'nan'
+            for col in parent_columns
+        ]
+        logging.info("No sub-column data found, using parent columns only")
+        start_row = header_row_idx +1
+
+        
 
     logging.debug(f"Combined columns before renaming: {combined_columns}")
     # Rename 'Min' to 'Tolerance Min'
@@ -163,7 +182,7 @@ def extract_excel_data(file_path):
     # logging.debug(pre_header_df)
 
     # Drop header rows
-    df = df.drop(range(header_row_idx + 2))
+    df = df.drop(range(start_row))
     df = df.reset_index(drop=True)
 
     # Convert 'Print No' as key (generic, case-insensitive)
