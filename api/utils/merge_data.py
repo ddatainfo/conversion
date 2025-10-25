@@ -96,6 +96,17 @@ def merge_excel_with_header(output_file_path, header_file_path, final_output_pat
         logging.error(f"Error during Excel merge: {str(e)}")
         raise
 
+def move_measured_columns_to_end(df):
+    """
+    Reorder DataFrame columns so all columns starting with 'MEASURED' (case-insensitive)
+    appear at the end, preserving the order of other columns.
+    Returns a new DataFrame with reordered columns.
+    """
+    cols = df.columns.tolist()
+    measured_cols = [col for col in cols if str(col).strip().upper().startswith("MEASURED")]
+    other_cols = [col for col in cols if not str(col).strip().upper().startswith("MEASURED")]
+    return df[other_cols + measured_cols]
+
 def _try_float(v):
     """Safely convert v to float; return np.nan on failure."""
     try:
@@ -178,9 +189,10 @@ def final_data(excel_file_path, txt_file_paths, output_file_path):
                     base['TOLERANCE MAX'] = _try_float(mes.get('+tol'))
                 if mes.get('-tol') is not None:
                     base['TOLERANCE MIN'] = _try_float(mes.get('-tol'))
-                base['MEASURED'] = _try_float(mes.get('measured'))
+                
                 base['DEVIATION'] = _try_float(mes.get('deviation'))
                 base['OUT OF TOLERANCE'] = _try_float(mes.get('outtol'))
+                base['MEASURED'] = _try_float(mes.get('measured'))
             else:
                 # ensure MEASURED exists
                 base.setdefault('MEASURED', '')
@@ -196,11 +208,11 @@ def final_data(excel_file_path, txt_file_paths, output_file_path):
                 unmatched_record = {
                     'DIMENSION_NUMBER': uk,
                     'DIMENSION': mes.get('dimension'),
-                    'MEASURED': mes.get('measured'),
                     'TOLERANCE_MAX': mes.get('+tol'),
                     'TOLERANCE_MIN': mes.get('-tol'),
                     'DEVIATION': mes.get('deviation'),
-                    'OUT_OF_TOLERANCE': mes.get('outtol')
+                    'OUT_OF_TOLERANCE': mes.get('outtol'),
+                    'MEASURED': mes.get('measured')
                 }
                 unmatched_data.append(unmatched_record)
 
@@ -209,7 +221,8 @@ def final_data(excel_file_path, txt_file_paths, output_file_path):
     # Convert merged_data to DataFrame and drop columns that are all NaN
     merged_df = pd.DataFrame(merged_data)
     merged_df = merged_df.dropna(axis=1, how='all')
-    logging.debug(f"Merged DataFrame columns after dropping all-NaN: {merged_df.columns.tolist()}")
+    merged_df = move_measured_columns_to_end(merged_df)
+    logging.debug(f"Merged DataFrame columns after dropping all-NaN and reordering: {merged_df.columns.tolist()}")
     # Save the data to a temporary Excel file first
     temp_output = output_file_path
     logging.info(f"Writing to temporary file: {temp_output}")
