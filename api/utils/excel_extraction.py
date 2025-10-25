@@ -69,31 +69,23 @@ def remove_rows_after_index(input_file, output_file, index_row):
     
     # Check file extension
     file_ext = os.path.splitext(input_file)[1].lower()
+    if file_ext == '.xls':
+        logging.error("Only .xlsx files are supported currently")
+        raise ValueError("Only .xlsx files are supported currently. Please convert your file to .xlsx format.")
     temp_file = None
-    
     try:
-        # If input is .xls, convert to .xlsx first
-        if file_ext == '.xls':
-            logging.info("Converting .xls to .xlsx format")
-            logging.error("Only .xlsx files are supported currently")
-            
-        else:
-            wb = openpyxl.load_workbook(input_file)
-        
+        wb = openpyxl.load_workbook(input_file)
         # Process each sheet
         for sheet_name in wb.sheetnames:
             ws = wb[sheet_name]
             max_row = ws.max_row
-            
             if max_row > index_row:
                 # Delete rows from bottom to top to avoid index shifting
                 logging.info(f"Removing rows from {index_row + 1} to {max_row}")
                 ws.delete_rows(index_row + 1, max_row - index_row)
-        
         logging.info(f"Saving modified Excel file to: {output_file}")
         wb.save(output_file)
         logging.info("Completed successfully")
-        
     finally:
         # Clean up temporary file if it was created
         if temp_file and os.path.exists(temp_file):
@@ -136,10 +128,16 @@ def extract_excel_data(file_path):
     parent_columns = df.iloc[header_row_idx]
     sub_columns = df.iloc[header_row_idx + 1]
 
+    logging.debug(f"Parent columns: {parent_columns.tolist()}")
+    logging.debug(f"Sub columns: {sub_columns.tolist()}")
     # Check if sub_columns has any non-empty data
-    has_sub_data = any(not pd.isna(cell) and str(cell).strip() != '' for cell in sub_columns)
-    
-    if not has_sub_data:
+    # Check if sub_columns contains 'Min' or 'Max' (case-insensitive, ignore NaN)
+    has_sub_data = any(
+        isinstance(cell, str) and ("min" in cell.lower() or "max" in cell.lower())
+        for cell in sub_columns if not pd.isna(cell)
+    )
+    logging.info(f"###############has_sub_data: {has_sub_data}")
+    if has_sub_data:
         # If no sub-column data, use parent columns directly
         combined_columns = []
         for parent, sub in zip(parent_columns, sub_columns):
@@ -171,6 +169,7 @@ def extract_excel_data(file_path):
     logging.debug(f"Combined columns before renaming: {combined_columns}")
     # Rename 'Min' to 'Tolerance Min'
     combined_columns = ['TOLERANCE MIN' if col.lower() == 'min' else col for col in combined_columns]
+    combined_columns = ['TOLERANCE MAX' if col.lower() == 'max' else col for col in combined_columns]
 
     df.columns = combined_columns
     logging.debug(f"Columns after renaming: {df.columns.tolist()}")
