@@ -167,10 +167,15 @@ def extract_excel_data(file_path):
         
 
     logging.debug(f"Combined columns before renaming: {combined_columns}")
-    # Rename 'Min' to 'Tolerance Min'
-    combined_columns = ['TOLERANCE MIN' if col.lower() == 'min' else col for col in combined_columns]
-    combined_columns = ['TOLERANCE MAX' if col.lower() == 'max' else col for col in combined_columns]
-
+    # Rename columns containing 'min' or 'max'
+    combined_columns = [
+        'TOLERANCE MIN' if isinstance(col, str) and ('min' in col.lower() or col.lower() == 'min') 
+        else 'TOLERANCE MAX' if isinstance(col, str) and ('max' in col.lower() or col.lower() == 'max')
+        else col 
+        for col in combined_columns
+    ]
+    
+    logging.debug(f"Columns after min/max renaming: {combined_columns}")
     df.columns = combined_columns
     logging.debug(f"Columns after renaming: {df.columns.tolist()}")
 
