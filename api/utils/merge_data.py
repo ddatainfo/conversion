@@ -517,9 +517,42 @@ def append_excel_data(temp_data_file, header_file_path, header_row_idx, output_f
                             except Exception as e:
                                 logging.debug(f"Could not copy header formatting to data row {target_row}, col {col}: {str(e)}")
 
+        # Add borders to all cells for print formatting
+        logging.info("Adding borders to all cells for print formatting...")
+        try:
+            # Create a thin border style
+            thin_border = Border(
+                left=Side(style='thin'),
+                right=Side(style='thin'),
+                top=Side(style='thin'),
+                bottom=Side(style='thin')
+            )
+            
+            # Apply borders to all cells that have content
+            max_row_with_data = merged_sheet.max_row
+            max_col_with_data = merged_sheet.max_column
+            
+            for row in range(1, max_row_with_data + 1):
+                for col in range(1, max_col_with_data + 1):
+                    cell = merged_sheet.cell(row=row, column=col)
+                    #if cell.value is not None or row <= header_row_idx:  # Apply to header rows and data cells
+                    # Preserve existing formatting while adding borders
+                    current_font = cell.font
+                    current_fill = cell.fill
+                    current_alignment = cell.alignment
+                    current_number_format = cell.number_format
+                    
+                    # Apply border while keeping other formatting
+                    cell.border = thin_border
+                        
+            logging.info(f"Successfully added borders to {max_row_with_data} rows x {max_col_with_data} columns")
+            
+        except Exception as e:
+            logging.warning(f"Could not add borders: {str(e)}")
+
         # Save the new merged file
         merged_wb.save(output_file_path)
-        logging.info(f"Successfully created merged Excel file: {output_file_path}")
+        logging.info(f"Successfully created merged Excel file with borders: {output_file_path}")
         logging.info(f"Total rows in merged file: {merged_sheet.max_row}")
 
     except Exception as e:
