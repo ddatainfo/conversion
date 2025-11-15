@@ -3,8 +3,17 @@ import numpy as np
 import sys
 import re
 import logging
+import os
 import openpyxl
+from openpyxl.styles import Font, PatternFill, Border, Side, Alignment
 from openpyxl.utils import get_column_letter
+try:
+    from openpyxl.drawing.image import Image
+except ImportError:
+    try:
+        from openpyxl.drawing import Image
+    except ImportError:
+        Image = None
 sys.path.append("../")  # Add parent directory to sys.path for relative imports
 from api.utils.excel_extraction import extract_excel_data, copy_cell_format
 from api.utils.extract_measurements import extract_measurements
@@ -13,94 +22,18 @@ from api.utils.extract_measurements import extract_measurements
 logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
 COLUMN_TO_RMV = ['OUT OF TOLERANCE', 'DEVIATION', 'OUT_OF_TOLERANCE','IDENTIFICATION NO']  # replace with your list
 
-# def merge_excel_with_header(output_file_path, header_file_path, final_output_path, header_row_idx):
-#     """
-#     Merge two Excel files while preserving the cell formatting from the header file.
-    
-#     Args:
-#         output_file_path: Path to the Excel file containing the data
-#         header_file_path: Path to the Excel file containing the header with formatting to preserve
-#         final_output_path: Path where the merged file will be saved
-#     """
-#     logging.info("Starting Excel merge with format preservation")
-#     logging.info(f"Data file: {output_file_path}, Header file: {header_file_path}")
-    
-#     try:
-#         # Load both workbooks
-#         header_wb = openpyxl.load_workbook(header_file_path)
-#         data_wb = openpyxl.load_workbook(output_file_path)
-        
-#         # Create a new workbook and get the active sheet
-#         merged_wb = openpyxl.Workbook()
-#         merged_sheet = merged_wb.active
-        
-#         # If data workbook has 'combined' sheet, use that, otherwise use first sheet
-#         data_sheet_name = 'combined' if 'combined' in data_wb.sheetnames else data_wb.sheetnames[0]
-#         data_sheet = data_wb[data_sheet_name]
-#         logging.info(f"Using data from sheet: {data_sheet_name}")
-        
-#         # Get the first sheet from header workbook
-#         header_sheet_name = header_wb.sheetnames[0]
-#         header_sheet = header_wb[header_sheet_name]
-#         logging.info(f"Using header format from sheet: {header_sheet_name}")
-        
-#         # Set the sheet name
-#         merged_sheet.title = header_sheet_name
-        
-#         # Copy column widths from header sheet
-#         max_cols = max(header_sheet.max_column, data_sheet.max_column)
-#         for col in range(1, max_cols + 1):
-#             col_letter = get_column_letter(col)
-#             if col_letter in header_sheet.column_dimensions:
-#                 merged_sheet.column_dimensions[col_letter].width = header_sheet.column_dimensions[col_letter].width
-#             else:
-#                 merged_sheet.column_dimensions[col_letter].width = 10  # Default width
-        
-#         # Copy row heights from header sheet
-#         for row in range(1, header_row_idx + 1):
-#             if row in header_sheet.row_dimensions:
-#                 merged_sheet.row_dimensions[row].height = header_sheet.row_dimensions[row].height
-        
-#         logging.info(f"header_sheet row:{header_row_idx}")
-#         # First, copy header rows with formatting
-#         for row in range(1, header_row_idx + 1):
-#             for col in range(1, header_sheet.max_column + 1):
-#                 source_cell = header_sheet.cell(row=row, column=col)
-#                 target_cell = merged_sheet.cell(row=row, column=col)
-                
-#                 # Copy value and formatting
-#                 target_cell.value = source_cell.value
-#                 copy_cell_format(source_cell, target_cell)
-        
-#         # Then append data rows
-#         start_row = header_row_idx + 1
-#         for data_row in range(1, data_sheet.max_row + 1):
-#             for col in range(1, data_sheet.max_column + 1):
-#                 source_cell = data_sheet.cell(row=data_row, column=col)
-#                 target_cell = merged_sheet.cell(row=start_row + data_row - 1, column=col)
-#                 target_cell.value = source_cell.value
-        
-#         # Save the merged workbook
-#         merged_wb.save(final_output_path)
-#         logging.info(f"Successfully saved merged file to {final_output_path}")
-        
-#     except Exception as e:
-#         logging.error(f"Error during Excel merge: {str(e)}")
-#         raise
-        
-#         # Save the merged workbook
-#         merged_wb.save(final_output_path)
-#         logging.info(f"Successfully saved merged file to {final_output_path}")
-        
-#     except Exception as e:
-#         logging.error(f"Error during Excel merge: {str(e)}")
-#         raise
 def merge_excel_with_header(output_file_path, header_file_path, final_output_path, header_row_idx):
     """
     Append data workbook into header workbook starting after header_row_idx,
     preserving header formatting from header_file_path.
+    
+    Args:
+        output_file_path: Path to the data Excel file
+        header_file_path: Path to the header template Excel file
+        final_output_path: Path where the final merged file will be saved
+        header_row_idx: Row index where the header ends (1-based)
     """
-    logging.info("Starting Excel merge (append data into header) with format preservation")
+    logging.info("Starting Excel merge - appending data after header with format preservation")
     logging.info(f"Data file: {output_file_path}, Header file: {header_file_path}, header_row_idx: {header_row_idx}")
 
     try:
@@ -119,60 +52,100 @@ def merge_excel_with_header(output_file_path, header_file_path, final_output_pat
         # Determine column range to handle
         max_cols = max(header_sheet.max_column, data_sheet.max_column)
 
-        # Ensure column widths are preserved/extended
+        # Set column widths (prefer header widths, fallback to data widths)
         for col in range(1, max_cols + 1):
             col_letter = get_column_letter(col)
-            logging.info(f"Processing column: {col_letter}")
             if col_letter in header_sheet.column_dimensions and header_sheet.column_dimensions[col_letter].width:
-                # keep existing width
-                header_w = header_sheet.column_dimensions[col_letter].width
-                header_sheet.column_dimensions[col_letter].width = header_w
+                width = header_sheet.column_dimensions[col_letter].width
             elif col_letter in data_sheet.column_dimensions and data_sheet.column_dimensions[col_letter].width:
-                # fallback to data sheet width if header has none
-                header_sheet.column_dimensions[col_letter].width = data_sheet.column_dimensions[col_letter].width
+                width = data_sheet.column_dimensions[col_letter].width
             else:
-                # ensure a default width exists
-                header_sheet.column_dimensions[col_letter].width = header_sheet.column_dimensions.get(col_letter, openpyxl.worksheet.dimensions.ColumnDimension(header_sheet, index=col_letter)).width or 10
+                width = 10  # Default width
+            header_sheet.column_dimensions[col_letter].width = width
 
-        # Insert empty rows after header_row_idx to accommodate all data rows
-        data_rows = data_sheet.max_row
+        # Insert empty rows after header_row_idx to accommodate all data rows (skip header row in data)
+        data_rows = data_sheet.max_row - 1  # Exclude header row
         if data_rows > 0:
             insert_at = header_row_idx + 1
             header_sheet.insert_rows(insert_at, amount=data_rows)
+            logging.info(f"Inserted {data_rows} rows starting at row {insert_at}")
 
-            # For each data row, copy values and apply formatting.
-            # Prefer copying formatting from the header_row_idx row (header template) if available,
-            # otherwise copy cell formatting from source data cell.
-            for r in range(1, data_rows + 1):
-                target_row = insert_at + r - 1
-                for c in range(1, max_cols + 1):
-                    source_cell = data_sheet.cell(row=r, column=c) if c <= data_sheet.max_column else None
-                    target_cell = header_sheet.cell(row=target_row, column=c)
-                    # copy value
-                    if source_cell is not None:
-                        target_cell.value = source_cell.value
-                    else:
-                        target_cell.value = None
+            # Copy data rows directly by position
+            for data_row in range(2, data_sheet.max_row + 1):  # Start from row 2 (skip header)
+                target_row = insert_at + (data_row - 2)
+                
+                # Copy all columns by position
+                for col in range(1, max_cols + 1):
+                    source_cell = data_sheet.cell(row=data_row, column=col) if col <= data_sheet.max_column else None
+                    target_cell = header_sheet.cell(row=target_row, column=col)
+                    
+                    # Extract ONLY the raw value (not the cell object)
+                    cell_value = source_cell.value if source_cell is not None else None
+                    
+                    # Set the value first
+                    target_cell.value = cell_value
+                    
+                    # Always set black font FIRST (before any other formatting)
+                    target_cell.font = Font(
+                        name='Calibri',
+                        size=11,
+                        bold=False,
+                        italic=False,
+                        underline=None,
+                        strike=False,
+                        color="FF000000"  # BLACK text - explicit with alpha
+                    )
+                    
+                    # Then apply other formatting from template (if exists)
+                    template_cell = header_sheet.cell(row=header_row_idx, column=col) if col <= header_sheet.max_column else None
+                    if template_cell is not None and template_cell.has_style:
+                        try:
+                            # Copy non-font formatting from template
+                            if template_cell.border:
+                                target_cell.border = template_cell.border
+                            if template_cell.fill and template_cell.fill.fill_type:
+                                target_cell.fill = template_cell.fill
+                            if template_cell.alignment:
+                                target_cell.alignment = template_cell.alignment
+                            if template_cell.number_format:
+                                target_cell.number_format = template_cell.number_format
+                        except Exception as e:
+                            logging.debug(f"Failed to copy template style for row {target_row} col {col}: {str(e)}")
 
-                    # Prefer header template formatting from the last header row
-                    header_template_cell = header_sheet.cell(row=header_row_idx, column=c) if c <= header_sheet.max_column else None
-                    try:
-                        if header_template_cell is not None and header_template_cell.has_style:
-                            copy_cell_format(header_template_cell, target_cell)
-                        elif source_cell is not None and getattr(source_cell, "has_style", False):
-                            copy_cell_format(source_cell, target_cell)
-                    except Exception:
-                        # protect against any unexpected style-copy issues per cell
-                        logging.debug(f"Failed to copy style for row {target_row} col {c}", exc_info=True)
-                        continue
+                # Set row height
+                if target_row not in header_sheet.row_dimensions:
+                    header_sheet.row_dimensions[target_row].height = 15  # Default height
 
-        # Save result back to final_output_path (overwrite or new file)
+            # Second pass: Force all data cells to have BLACK font color
+            logging.info("Second pass: Ensuring all data cells have black font color")
+            for target_row in range(insert_at, insert_at + data_rows):
+                for col in range(1, max_cols + 1):
+                    cell = header_sheet.cell(row=target_row, column=col)
+                    if cell.value is not None:  # Only process cells with values
+                        try:
+                            # Get current font properties and override color to black
+                            current_font = cell.font
+                            cell.font = Font(
+                                name=current_font.name if current_font.name else 'Calibri',
+                                size=current_font.size if current_font.size else 11,
+                                bold=False,
+                                italic=False,
+                                underline=None,
+                                strike=False,
+                                color="FF000000"  # Explicit black with alpha channel
+                            )
+                        except Exception as e:
+                            logging.debug(f"Failed to set black font for row {target_row} col {col}: {str(e)}")
+
+        # Save the final merged workbook
         header_wb.save(final_output_path)
         logging.info(f"Successfully saved merged file to {final_output_path}")
 
     except Exception as e:
         logging.error(f"Error during Excel merge: {str(e)}", exc_info=True)
         raise
+
+
 def move_measured_columns_to_end(df):
     """
     Reorder DataFrame columns so all columns starting with 'MEASURED' (case-insensitive)
@@ -336,21 +309,229 @@ def final_data(excel_file_path, txt_file_paths, output_file_path):
     temp_output = output_file_path
     logging.info(f"Writing to temporary file: {temp_output}")
     logging.debug(f"Merged DataFrame preview:\n{merged_df.head()}")
-    merged_df.to_excel("data.xlsx", index=False)
-    # with pd.ExcelWriter(temp_output, engine='openpyxl') as writer:
-    #     logging.info(f"Writing merged data to temporary file: {temp_output}")
-    #     merged_df.to_excel(writer, sheet_name='Sheet 1', index=False)
-    #     if unmatched_data:
-    #         logging.info(f"Writing unmatched data to temporary file: {temp_output}")
-    #         pd.DataFrame(unmatched_data).to_excel(writer, sheet_name='unmatched', index=False)
     
-    # Merge the temporary file with the header file while preserving formatting
+    temp_data_file = "data.xlsx"
+    
+    # Write DataFrame to Excel using ExcelWriter to control formatting
+    with pd.ExcelWriter(temp_data_file, engine='openpyxl') as writer:
+        merged_df.to_excel(writer, sheet_name='Sheet1', index=False)
+    
+    logging.info(f"Data written to temporary file: {temp_data_file}")
+    logging.info(f"header_file_path: {header_file_path}, header_row_idx: {header_row_idx}")
+    logging.info("Data merging process completed successfully.")
+
+    # # Merge the temporary file with the header file while preserving formatting
+    # try:
+    #     logging.info("Merging temporary file with header file to preserve formatting.")
+    #     merge_excel_with_header(temp_data_file, header_file_path, temp_output, header_row_idx)
+    #     logging.info(f"Final formatted data saved to {temp_output}")
+    
+    # except Exception as e:
+    #     logging.error(f"Failed to create excel file: {str(e)}")
+    #     raise
+    
+    # finally:
+    #     # Clean up temporary files
+    #     try:
+    #         if os.path.exists(temp_data_file):
+    #             os.remove(temp_data_file)
+    #             logging.info(f"Cleaned up temporary file: {temp_data_file}")
+    #         if os.path.exists("temp_modified.xlsx"):
+    #             os.remove("temp_modified.xlsx")
+    #             logging.info("Cleaned up temporary header file: temp_modified.xlsx")
+    #     except Exception as e:
+    #         logging.warning(f"Failed to clean up temporary files: {str(e)}")
+    # Align all data cells in the center
+    logging.info("Aligning all data cells in the center...")
     try:
-        logging.info("Merging temporary file with header file to preserve formatting.")
-        merge_excel_with_header("data.xlsx", header_file_path, temp_output,header_row_idx)
-        logging.info(f"Final formatted data saved to {temp_output}")
-    
+        data_workbook = openpyxl.load_workbook(temp_data_file)
+        data_worksheet = data_workbook.active
+
+        # Iterate through ALL cells and set alignment to center
+        for row in data_worksheet.iter_rows(min_row=1, max_row=data_worksheet.max_row, 
+                                           min_col=1, max_col=data_worksheet.max_column):
+            for cell in row:
+                if cell.value is not None:
+                    # Force center alignment for every cell with a value
+                    cell.alignment = Alignment(horizontal="center", vertical="center")
+
+        data_workbook.save(temp_data_file)
+        logging.info("Successfully aligned all data cells to center")
     except Exception as e:
-        logging.error(f"Failed to create excel file: {str(e)}")
+        logging.warning(f"Failed to align data cells to center: {str(e)}")
+
+    append_excel_data(temp_data_file, header_file_path, header_row_idx, output_file_path)
+
+def append_excel_data(temp_data_file, header_file_path, header_row_idx, output_file_path=None):
+    """
+    Create a new Excel file that merges header data and temp data.
+    Preserves formatting from header file while copying data values.
+    
+    Args:
+        temp_data_file: Path to the Excel file containing data to merge
+        header_file_path: Path to the Excel file with header data
+        header_row_idx: Row index where header data ends (1-based)
+        output_file_path: Path for the new merged Excel file (optional, defaults to temp_data_file)
+    """
+    if output_file_path is None:
+        output_file_path = temp_data_file
+    
+    logging.info(f"Creating new merged Excel file: {output_file_path}")
+    logging.info(f"Merging header from {header_file_path} (up to row {header_row_idx}) with data from {temp_data_file}")
+
+    try:
+        # Load both workbooks
+        header_wb = openpyxl.load_workbook(header_file_path)
+        temp_wb = openpyxl.load_workbook(temp_data_file)
+
+        # Get the active sheets
+        header_sheet = header_wb.active
+        temp_sheet = temp_wb.active
+
+        logging.info(f"Header sheet: {header_sheet.title}, Temp sheet: {temp_sheet.title}")
+        
+        # Create new workbook for merged result
+        merged_wb = openpyxl.Workbook()
+        merged_sheet = merged_wb.active
+        merged_sheet.title = "Merged_Data"
+
+        # First, copy header data with formatting (from row 1 to header_row_idx)
+        header_max_cols = header_sheet.max_column
+        logging.info(f"Copying header data with formatting: rows 1 to {header_row_idx}, columns 1 to {header_max_cols}")
+        
+        # Copy column dimensions from header sheet
+        for col_letter, dimension in header_sheet.column_dimensions.items():
+            merged_sheet.column_dimensions[col_letter].width = dimension.width
+        
+        # Copy row dimensions and cell data with formatting
+        for row in range(1, header_row_idx + 1):
+            # Copy row height if it exists
+            if row in header_sheet.row_dimensions:
+                merged_sheet.row_dimensions[row].height = header_sheet.row_dimensions[row].height
+                
+            for col in range(1, header_max_cols + 1):
+                source_cell = header_sheet.cell(row=row, column=col)
+                target_cell = merged_sheet.cell(row=row, column=col)
+                
+                # Copy value
+                target_cell.value = source_cell.value
+                
+                # Copy formatting if it exists
+                if source_cell.has_style:
+                    try:
+                        # Explicitly copy font with all properties including color
+                        if source_cell.font:
+                            target_cell.font = Font(
+                                name=source_cell.font.name,
+                                size=source_cell.font.size,
+                                bold=source_cell.font.bold,
+                                italic=source_cell.font.italic,
+                                underline=source_cell.font.underline,
+                                strike=source_cell.font.strike,
+                                color=source_cell.font.color
+                            )
+                        target_cell.fill = source_cell.fill
+                        target_cell.border = source_cell.border
+                        target_cell.alignment = source_cell.alignment
+                        target_cell.number_format = source_cell.number_format
+                    except Exception as e:
+                        logging.debug(f"Could not copy formatting for header row {row}, col {col}: {str(e)}")
+
+        # Copy images from header sheet
+        if Image is not None:
+            try:
+                if hasattr(header_sheet, '_images') and header_sheet._images:
+                    logging.info(f"Found {len(header_sheet._images)} images in header sheet")
+                    for image in header_sheet._images:
+                        try:
+                            # Create a new image object with the same properties
+                            new_image = Image(image.ref)
+                            new_image.anchor = image.anchor
+                            if hasattr(image, 'width'):
+                                new_image.width = image.width
+                            if hasattr(image, 'height'):
+                                new_image.height = image.height
+                            
+                            # Add the image to the merged sheet
+                            merged_sheet.add_image(new_image)
+                            logging.info(f"Successfully copied image at anchor: {image.anchor}")
+                        except Exception as img_error:
+                            logging.warning(f"Could not copy individual image: {str(img_error)}")
+                else:
+                    logging.info("No images found in header sheet")
+            except Exception as e:
+                logging.warning(f"Could not access images from header sheet: {str(e)}")
+        else:
+            logging.warning("Image support not available - images will not be copied")
+
+        # Then, copy ALL temp data (including all rows from temp file)
+        temp_data_start_row = 1  # Copy all rows including the first row
+        temp_data_end_row = temp_sheet.max_row
+        temp_max_cols = temp_sheet.max_column
+        
+        total_data_rows = temp_data_end_row - temp_data_start_row + 1
+        logging.info(f"Copying ALL temp data: {total_data_rows} rows (from row {temp_data_start_row} to {temp_data_end_row}), columns 1 to {temp_max_cols}")
+
+        if total_data_rows > 0:
+            # Start copying temp data after header_row_idx
+            merged_start_row = header_row_idx + 1
+            
+            for temp_row in range(temp_data_start_row, temp_data_end_row + 1):
+                # Calculate target row in merged sheet
+                target_row = merged_start_row + (temp_row - temp_data_start_row)
+                
+                # Set default row height for data rows
+                merged_sheet.row_dimensions[target_row].height = 15
+                
+                # Copy all columns from this row with header formatting applied to data
+                for col in range(1, temp_max_cols + 1):
+                    source_cell = temp_sheet.cell(row=temp_row, column=col)
+                    target_cell = merged_sheet.cell(row=target_row, column=col)
+                    
+                    # Copy value from temp data
+                    target_cell.value = source_cell.value
+                    
+                    # ALWAYS apply center alignment to ALL data cells with values
+                    if target_cell.value is not None:
+                        target_cell.alignment = Alignment(horizontal="center", vertical="center")
+                    
+                    # Apply formatting from corresponding header column (use header_row_idx as template)
+                    if col <= header_max_cols:
+                        header_template_cell = header_sheet.cell(row=header_row_idx, column=col)
+                        if header_template_cell.has_style:
+                            try:
+                                # Explicitly copy font with all properties including color
+                                if header_template_cell.font:
+                                    target_cell.font = Font(
+                                        name=header_template_cell.font.name,
+                                        size=header_template_cell.font.size,
+                                        bold=header_template_cell.font.bold,
+                                        italic=header_template_cell.font.italic,
+                                        underline=header_template_cell.font.underline,
+                                        strike=header_template_cell.font.strike,
+                                        color=header_template_cell.font.color
+                                    )
+                                target_cell.fill = header_template_cell.fill
+                                target_cell.border = header_template_cell.border
+                                target_cell.number_format = header_template_cell.number_format
+                            except Exception as e:
+                                logging.debug(f"Could not copy header formatting to data row {target_row}, col {col}: {str(e)}")
+
+        # Save the new merged file
+        merged_wb.save(output_file_path)
+        logging.info(f"Successfully created merged Excel file: {output_file_path}")
+        logging.info(f"Total rows in merged file: {merged_sheet.max_row}")
+
+    except Exception as e:
+        logging.error(f"Error during Excel merge: {str(e)}", exc_info=True)
+        raise
+    finally:
+        # Close workbooks to free memory
+        if 'header_wb' in locals():
+            header_wb.close()
+        if 'temp_wb' in locals():
+            temp_wb.close()
+        if 'merged_wb' in locals():
+            merged_wb.close()
 
 
