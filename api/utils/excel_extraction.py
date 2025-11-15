@@ -44,14 +44,23 @@ def copy_cell_format(source_cell, target_cell):
             end_color=source_cell.fill.end_color
         )
         
+        # target_cell.alignment = Alignment(
+        #     horizontal=source_cell.alignment.horizontal,
+        #     vertical=source_cell.alignment.vertical,
+        #     text_rotation=source_cell.alignment.text_rotation,
+        #     wrap_text=source_cell.alignment.wrap_text,
+        #     shrink_to_fit=source_cell.alignment.shrink_to_fit,
+        #     indent=source_cell.alignment.indent
+        # )
         target_cell.alignment = Alignment(
             horizontal=source_cell.alignment.horizontal,
             vertical=source_cell.alignment.vertical,
             text_rotation=source_cell.alignment.text_rotation,
-            wrap_text=source_cell.alignment.wrap_text,
+            wrap_text=True,
             shrink_to_fit=source_cell.alignment.shrink_to_fit,
             indent=source_cell.alignment.indent
         )
+        
 
 
 def remove_rows_after_index(input_file, output_file, index_row):

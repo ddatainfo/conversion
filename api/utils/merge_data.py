@@ -106,7 +106,16 @@ def merge_excel_with_header(output_file_path, header_file_path, final_output_pat
                             if template_cell.fill and template_cell.fill.fill_type:
                                 target_cell.fill = template_cell.fill
                             if template_cell.alignment:
-                                target_cell.alignment = template_cell.alignment
+                                #target_cell.alignment = template_cell.alignment
+                                  target_cell.alignment = Alignment(
+                                    horizontal=source_cell.alignment.horizontal,
+                                    vertical=source_cell.alignment.vertical,
+                                    text_rotation=source_cell.alignment.text_rotation,
+                                    wrap_text=True,
+                                    shrink_to_fit=source_cell.alignment.shrink_to_fit,
+                                    indent=source_cell.alignment.indent
+                                )
+                            
                             if template_cell.number_format:
                                 target_cell.number_format = template_cell.number_format
                         except Exception as e:
@@ -432,8 +441,20 @@ def append_excel_data(temp_data_file, header_file_path, header_row_idx, output_f
                             )
                         target_cell.fill = source_cell.fill
                         target_cell.border = source_cell.border
-                        target_cell.alignment = source_cell.alignment
+                        
+                        #target_cell.alignment = source_cell.alignment
                         target_cell.number_format = source_cell.number_format
+                        src_align = source_cell.alignment
+
+                        target_cell.alignment = Alignment(
+                            horizontal=src_align.horizontal,
+                            vertical=src_align.vertical,
+                            text_rotation=src_align.text_rotation,
+                            wrap_text=True,  # Set wrap text to True
+                            shrink_to_fit=src_align.shrink_to_fit,
+                            indent=src_align.indent
+                        )
+                        
                     except Exception as e:
                         logging.debug(f"Could not copy formatting for header row {row}, col {col}: {str(e)}")
 
@@ -481,7 +502,8 @@ def append_excel_data(temp_data_file, header_file_path, header_row_idx, output_f
                 target_row = merged_start_row + (temp_row - temp_data_start_row)
                 
                 # Set default row height for data rows
-                merged_sheet.row_dimensions[target_row].height = 15
+                #merged_sheet.row_dimensions[target_row].height = 15
+                merged_sheet.row_dimensions[target_row].height = 40
                 
                 # Copy all columns from this row with header formatting applied to data
                 for col in range(1, temp_max_cols + 1):
@@ -493,7 +515,9 @@ def append_excel_data(temp_data_file, header_file_path, header_row_idx, output_f
                     
                     # ALWAYS apply center alignment to ALL data cells with values
                     if target_cell.value is not None:
-                        target_cell.alignment = Alignment(horizontal="center", vertical="center")
+                        target_cell.alignment = Alignment(horizontal="center", vertical="center",wrap_text=True)
+
+
                     
                     # Apply formatting from corresponding header column (use header_row_idx as template)
                     if col <= header_max_cols:
@@ -514,6 +538,7 @@ def append_excel_data(temp_data_file, header_file_path, header_row_idx, output_f
                                 target_cell.fill = header_template_cell.fill
                                 target_cell.border = header_template_cell.border
                                 target_cell.number_format = header_template_cell.number_format
+                                
                             except Exception as e:
                                 logging.debug(f"Could not copy header formatting to data row {target_row}, col {col}: {str(e)}")
 
