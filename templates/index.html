@@ -181,7 +181,7 @@
     <div class="container">
         <h1>Report Conversion Tool</h1>
         <p style="text-align: center; color: #5a6c7d; margin-bottom: 30px; font-size: 1.1em; line-height: 1.6;">
-            Upload an Excel file (.xls/.xlsx) and multiple TXT files to merge them together.
+            Upload an Excel file (.xls/.xlsx) and a ZIP file containing folders with TXT files to merge them together.
         </p>
         
         <form id="uploadForm">
@@ -193,9 +193,9 @@
                 </div>
                 
                 <div class="file-input-group">
-                    <label for="txtFiles">Text Files (.txt) - Select multiple files:</label>
-                    <input type="file" id="txtFiles" name="txt_files" accept=".txt" multiple required>
-                    <div class="file-info" id="txtInfo"></div>
+                    <label for="zipFile">ZIP File containing Folders (.zip):</label>
+                    <input type="file" id="zipFile" name="folder_files" accept=".zip" required>
+                    <div class="file-info" id="zipInfo"></div>
                 </div>
                 
                 <button type="submit" class="upload-btn" id="uploadBtn">
@@ -228,13 +228,11 @@
             }
         });
         
-        document.getElementById('txtFiles').addEventListener('change', function(e) {
-            const files = e.target.files;
-            const info = document.getElementById('txtInfo');
-            if (files.length > 0) {
-                const fileNames = Array.from(files).map(f => f.name).join(', ');
-                const totalSize = Array.from(files).reduce((sum, f) => sum + f.size, 0);
-                info.textContent = `Selected ${files.length} file(s): ${fileNames} (Total: ${(totalSize / 1024).toFixed(2)} KB)`;
+        document.getElementById('zipFile').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            const info = document.getElementById('zipInfo');
+            if (file) {
+                info.textContent = `Selected: ${file.name} (${(file.size / 1024 / 1024).toFixed(2)} MB)`;
             } else {
                 info.textContent = '';
             }
@@ -245,38 +243,31 @@
             e.preventDefault();
             
             const excelFile = document.getElementById('excelFile').files[0];
-            const txtFiles = document.getElementById('txtFiles').files;
+            const zipFile = document.getElementById('zipFile').files[0];
             
-            if (!excelFile || txtFiles.length === 0) {
-                showResult('Please select an Excel file and at least one TXT file.', 'error');
+            if (!excelFile || !zipFile) {
+                showResult('Please select both an Excel file and a ZIP file.', 'error');
                 return;
             }
             
             // Validate file types
             const excelExtension = excelFile.name.toLowerCase().split('.').pop();
+            const zipExtension = zipFile.name.toLowerCase().split('.').pop();
             
             if (!['xls', 'xlsx'].includes(excelExtension)) {
                 showResult('Please select a valid Excel file (.xls or .xlsx).', 'error');
                 return;
             }
             
-            // Validate all TXT files
-            for (let i = 0; i < txtFiles.length; i++) {
-                const txtExtension = txtFiles[i].name.toLowerCase().split('.').pop();
-                if (txtExtension !== 'txt') {
-                    showResult(`Please select valid TXT files only. "${txtFiles[i].name}" is not a valid TXT file.`, 'error');
-                    return;
-                }
+            if (zipExtension !== 'zip') {
+                showResult('Please select a valid ZIP file (.zip).', 'error');
+                return;
             }
             
             // Prepare form data
             const formData = new FormData();
             formData.append('excel_file', excelFile);
-            
-            // Append all TXT files
-            for (let i = 0; i < txtFiles.length; i++) {
-                formData.append('txt_files', txtFiles[i]);
-            }
+            formData.append('folder_files', zipFile);
             
             // Show progress bar and disable button
             showProgress();
@@ -287,7 +278,7 @@
                 // Simulate progress updates
                 updateProgress(20, 'Uploading files...');
                 
-                const response = await fetch('/conversion/files/upload/', {
+                const response = await fetch('/files/upload/', {
                     method: 'POST',
                     body: formData
                 });
