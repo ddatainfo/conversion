@@ -5,6 +5,7 @@ import re
 import logging
 import os
 import openpyxl
+from typing import Dict, List, Union
 from openpyxl.styles import Font, PatternFill, Border, Side, Alignment
 from openpyxl.utils import get_column_letter
 try:
@@ -199,8 +200,13 @@ def _try_float(v):
 def final_data(excel_file_path, txt_file_paths, output_file_path):
     """Merge Excel templates with one or more TXT measurement files.
 
-    txt_file_paths may be a single path (str) or a list of paths. When multiple TXT files
-    are provided, measured values are written into columns named MEASURED-1, MEASURED-2, ...
+    txt_file_paths may be:
+    - a single path (str)
+    - a list of paths
+    - a dict organized by folders: {"folder_name": [list_of_paths]}
+    
+    When dict is provided, files are processed folder-wise while preserving folder context.
+    When multiple TXT files are provided, measured values are written into columns named MEASURED-1, MEASURED-2, ...
     """
     logging.info("Starting data merging process.")
 
@@ -217,28 +223,91 @@ def final_data(excel_file_path, txt_file_paths, output_file_path):
     # pre_header.columns = [col.upper() for col in pre_header.columns]
     # pre_header = pre_header.reset_index(drop=True)
 
-    # Accept either a single path or a list of paths
-    if isinstance(txt_file_paths, (str, bytes)):
-        txt_file_paths = [txt_file_paths]
+    # Handle different input formats and preserve folder context
+    folder_to_files = {}
+    
+    if isinstance(txt_file_paths, dict):
+        # Already organized by folders - preserve structure
+        folder_to_files = txt_file_paths
+        logging.info(f"Processing files organized by folders: {list(folder_to_files.keys())}")
+        for folder_name, files in folder_to_files.items():
+            logging.info(f"  Folder '{folder_name}': {len(files)} file(s)")
+    elif isinstance(txt_file_paths, (str, bytes)):
+        # Single file path
+        folder_to_files = {"default": [txt_file_paths]}
+    elif isinstance(txt_file_paths, list):
+        # List of paths - organize by folder from file path
+        folder_to_files = {}
+        for path in txt_file_paths:
+            # Extract folder name from path (e.g., /uploads/1/file.txt -> "1")
+            path_parts = path.split(os.sep)
+            if len(path_parts) > 1 and path_parts[-2] not in ["uploads", ""]:
+                folder_name = path_parts[-2]
+            else:
+                folder_name = "default"
+            
+            if folder_name not in folder_to_files:
+                folder_to_files[folder_name] = []
+            folder_to_files[folder_name].append(path)
+        logging.info(f"Organized files by folder: {list(folder_to_files.keys())}")
+    else:
+        raise ValueError(f"Unsupported txt_file_paths type: {type(txt_file_paths)}")
+    
+    # Flatten into a single list for processing while keeping folder info
+    txt_file_paths_flat = []
+    folder_info = {}  # Maps file path to folder name
+    for folder_name, paths in folder_to_files.items():
+        for path in paths:
+            txt_file_paths_flat.append(path)
+            folder_info[path] = folder_name
+    
+    logging.info(f"Total files to process: {len(txt_file_paths_flat)} across {len(folder_to_files)} folder(s)")
 
     # For each TXT file, extract measurements and build a mapping dim->first_measurement
-    per_file_maps = []  # list of dicts: [{dim: measurement, ...}, ...]
-    for txt_path in txt_file_paths:
-        file_meas = extract_measurements(txt_path)
-        mmap = {}
-        for mes in file_meas:
-            if '#' in mes.get('dimension', ''):
-                try:
-                    dp = mes.get('dimension', '').split('=')[0]
-                    d = re.search(r'#(\d+)', dp)
-                    if d:
-                        dn = int(d.group(1))
-                        # keep first measurement for this dimension in this file
-                        if dn not in mmap:
-                            mmap[dn] = mes
-                except Exception:
-                    continue
-        per_file_maps.append(mmap)
+    # Group files by folder first, then merge within each folder
+    files_by_folder = {}
+    for txt_path in txt_file_paths_flat:
+        folder_name = folder_info.get(txt_path, "default")
+        if folder_name not in files_by_folder:
+            files_by_folder[folder_name] = []
+        files_by_folder[folder_name].append(txt_path)
+    
+    logging.info(f"Grouped files by folder: {list(files_by_folder.keys())}")
+    
+    # Process each folder and merge files within it
+    per_file_maps = []  # list of dicts: [{dim: measurement, ...}, ...] - one merged dict per folder
+    
+    for folder_name, file_paths in files_by_folder.items():
+        logging.info(f"\n=== Processing Folder '{folder_name}' with {len(file_paths)} file(s) ===")
+        merged_mmap = {}  # Merged measurements for this folder
+        
+        for file_index, txt_path in enumerate(file_paths, start=1):
+            logging.info(f"Processing file {file_index}/{len(file_paths)} from folder '{folder_name}': {os.path.basename(txt_path)}")
+            file_meas = extract_measurements(txt_path)
+            logging.info(f"  Extracted {len(file_meas)} measurements from this file")
+            
+            for mes in file_meas:
+                if '#' in mes.get('dimension', ''):
+                    try:
+                        dp = mes.get('dimension', '').split('=')[0]
+                        d = re.search(r'#(\d+)', dp)
+                        if d:
+                            dn = int(d.group(1))
+                            # Only add if not already in merged_mmap (keep first file's data)
+                            if dn not in merged_mmap:
+                                merged_mmap[dn] = mes
+                                logging.debug(f"  ✓ Added measurement #{dn} from file {file_index}")
+                            else:
+                                logging.debug(f"  ⊘ Skipped duplicate measurement #{dn} (keeping data from file 1)")
+                    except Exception as e:
+                        logging.debug(f"  Error processing measurement: {str(e)}")
+                        continue
+        
+        if merged_mmap:
+            per_file_maps.append(merged_mmap)
+            logging.info(f"Folder '{folder_name}': ✓ Merged {len(file_paths)} file(s) → {len(merged_mmap)} unique measurements\n")
+        else:
+            logging.warning(f"Folder '{folder_name}': ⚠ No valid measurements found\n")
 
     logging.debug(f"Per-file measurement maps count: {len(per_file_maps)}")
 
